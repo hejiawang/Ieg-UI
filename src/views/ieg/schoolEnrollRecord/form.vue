@@ -197,7 +197,7 @@ export default {
       font-size: 17px;
     }
     .app-layout-editor {
-      height: calc(100% - 50px);
+      height: calc(100% - 50px) !important;
     }
   }
 </style>

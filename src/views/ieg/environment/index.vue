@@ -153,8 +153,8 @@ export default {
     .ieg-environment-main {
       height: calc(100% - 60px);
       .ieg-environment-main-left {
-        height: 100%;
-        overflow-y: auto;
+        height: 100% !important;
+        overflow-y: auto !important;
       }
       .ieg-environment-main-right {
         height: 100%;
@@ -163,8 +163,8 @@ export default {
           .ivu-card-body {
             height: 100%;
             .describe-body {
-              height: calc(100% - 120px);
-              overflow-y: auto;
+              height: calc(100% - 120px) !important;
+              overflow-y: auto !important;
               border: 0px;
             }
           }

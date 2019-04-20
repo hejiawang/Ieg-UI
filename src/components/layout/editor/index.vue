@@ -127,7 +127,7 @@ export default {
 </script>
 <style lang="scss">
   .app-layout-editor{
-    height: calc(100% - 130px);
+    height: calc(100% - 130px) !important;
     .quill-editor{
       height: 100%;
     }

@@ -110,8 +110,8 @@ export default {
 <style lang="scss">
   .app-sys-role-auth{
     .body{
-      height: calc(100% - 60px);
-      overflow-y: auto;
+      height: calc(100% - 60px) !important;
+      overflow-y: auto !important;
     }
     .bottom{
       position: absolute;

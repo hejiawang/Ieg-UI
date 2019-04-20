@@ -110,8 +110,8 @@ export default {
   .ieg-major-view {
     height: 100%;
     .ivu-card-body {
-      height: 100%;
-      overflow-y: auto;
+      height: 100% !important;
+      overflow-y: auto !important;
     }
 
     .ieg-major-base {

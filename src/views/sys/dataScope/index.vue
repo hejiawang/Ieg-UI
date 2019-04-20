@@ -128,8 +128,8 @@ export default {
           height: 60px;
         }
         .dataScope-left-content {
-          height: calc(100% - 105px);
-          overflow-y: auto;
+          height: calc(100% - 105px) !important;
+          overflow-y: auto !important;
           .dataScope-left-info {
             line-height: 35px;
             height: 70px;

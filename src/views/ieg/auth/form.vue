@@ -143,8 +143,8 @@ export default {
 <style lang="scss">
   .ieg-auth-form{
     .body{
-      height: calc(100% - 60px);
-      overflow-y: auto;
+      height: calc(100% - 60px) !important;
+      overflow-y: auto !important;
     }
     .bottom{
       position: absolute;

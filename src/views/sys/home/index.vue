@@ -21,6 +21,6 @@ export default {
 </script>
 <style lang="scss">
   .app-sys-home{
-    overflow-y: auto;
+    overflow-y: auto !important;
   }
 </style>

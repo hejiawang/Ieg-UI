@@ -143,8 +143,8 @@ export default {
         height: calc(100% - 54px);
       }
       .ivu-tree{
-        height: 100%;
-        overflow-y: auto;
+        height: 100% !important;
+        overflow-y: auto !important;
       }
     }
   }

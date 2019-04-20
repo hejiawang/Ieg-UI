@@ -157,8 +157,8 @@ export default {
       }
     }
     .ieg-major-tree {
-      height: calc(100% - 120px);
-      overflow-y: auto;
+      height: calc(100% - 120px) !important;
+      overflow-y: auto !important;
     }
   }
 </style>

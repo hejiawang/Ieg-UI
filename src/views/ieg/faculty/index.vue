@@ -192,8 +192,8 @@ export default {
       .ieg-faculty-view {
         height: 100%;
         .describe-body {
-          height: calc(100% - 110px);
-          overflow-y: auto;
+          height: calc(100% - 110px) !important;
+          overflow-y: auto !important;
           border: 0px;
         }
       }

@@ -90,8 +90,8 @@ export default {
 <style lang="scss">
   .app-sys-role-data{
     .body{
-      height: calc(100% - 60px);
-      overflow-y: auto;
+      height: calc(100% - 60px) !important;
+      overflow-y: auto !important;
       .ivu-collapse{
         font-size: 17px;
         .ivu-collapse-content-box p{

@@ -298,8 +298,8 @@ export default {
 </script>
 <style lang="scss">
   .ieg-school-form {
-    height: 100%;
-    overflow-y: auto;
+    height: 100% !important;
+    overflow-y: auto !important;
     overflow-x: hidden;
     .ieg-school-form-detail-row {
       height: 500px;

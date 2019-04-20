@@ -308,7 +308,7 @@ export default {
       height: 17px;
     }
     .app-layout-editor {
-      height: 100%;
+      height: 100% !important;
     }
   }
 </style>
