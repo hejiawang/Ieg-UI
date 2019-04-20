@@ -1,6 +1,8 @@
-.guide {
-  background-image: url(../../assets/images/guide/background.jpg);
+.guide-b {
+  background-image: url(/static/assets/images/guide/background.jpg);
   background-size: cover;
+}
+.guide {
   .ivu-layout-header{
     background-image: none !important;
     background: none !important;

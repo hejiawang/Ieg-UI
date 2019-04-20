@@ -1,5 +1,5 @@
 <template>
-  <Layout v-layoutIn class="guide">
+  <Layout v-layoutIn class="guide guide-b" style="background-image: url(/static/assets/images/guide/background.jpg); background-size: cover;">
     <CHeader :system="false" />
     <Layout class="content">
       <Row :gutter="120">

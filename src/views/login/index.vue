@@ -1,5 +1,5 @@
 <template>
-  <Layout class="login">
+  <Layout class="login login-b" style="background-image: url(/static/assets/images/login/login_b.jpg); background-size: cover;">
     <Row class="content">
       <Col offset="9" span="6">
         <Card class="animated fadeInRight">
