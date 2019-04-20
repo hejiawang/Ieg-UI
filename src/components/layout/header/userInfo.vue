@@ -26,20 +26,18 @@
     <!-- 修改用户信息 -->
     <CUserForm v-model="showForm" :userInfo="currenUser" type="modify" :disabled="true" @refresh="reLogin" />
 
-    <CMessageList v-model="showMessageList" @on-countMessage="countMessage"/>
   </div>
 </template>
 <script>
 import store from '@/store'
 import CModifyPassword from '@/views/sys/user/modifyPasswordForm'
 import CUserForm from '@/views/sys/user/form'
-import CMessageList from '@/views/message/list'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'CHeader_UserInfo',
   components: {
-    CModifyPassword, CUserForm, CMessageList
+    CModifyPassword, CUserForm
   },
   props: {
     system: {type: Boolean, default: true, required: false}
