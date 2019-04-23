@@ -1,5 +1,5 @@
 <template>
-  <Drawer :title="'院校维护权限授权 【' + user.realName + '】 '" v-model="isShow" width="600"
+  <Drawer :title="'院校维护权限授权 【' + userRealName + '】 '" v-model="isShow" width="1000"
           @on-visible-change="showDrawer" class="ieg-auth-form">
     <Row class="body">
       <Row style="height: 60px;">
@@ -46,6 +46,10 @@ export default {
      */
     schoolTableHeight () {
       return store.getters.windowHeight - 250
+    },
+    userRealName () {
+      if (this.$CV.isEmpty(this.user)) return ''
+      else return this.user.realName
     }
   },
   watch: {
@@ -79,12 +83,12 @@ export default {
         {
           title: ' ',
           key: 'id',
-          width: 60,
+          width: 120,
           align: 'center',
           render: (h, params) => {
             return h('Checkbox', {
               props: { label: params.row.id }
-            }, '  ')
+            }, '   ')
           }
         },
         {title: '院校名称', key: 'name', tooltip: true},
@@ -98,6 +102,11 @@ export default {
       list(this.listQuery).then(data => {
         this.schoolTableData = data.rows
         this.listQuery = Object.assign({}, this.listQuery, {total: data.total})
+
+        // TODO 处理页面不重新渲染checkBox的问题
+        let temp = this.schoolAuths
+        this.schoolAuths = []
+        this.$nextTick(() => { this.schoolAuths = temp })
       })
     },
     /**
@@ -133,7 +142,9 @@ export default {
      */
     showDrawer (isOpen) {
       if (isOpen) {
-        this.schoolAuths = []
+        this.restSearch()
+
+        // this.schoolAuths = []
         findShcoolIdByUser(this.user.id).then(data => { this.schoolAuths = data.result })
       }
     }
