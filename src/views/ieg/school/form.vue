@@ -10,12 +10,12 @@
           <Row :gutter="32">
             <Col span="8">
               <FormItem label="院校名称" prop="name">
-                <Input type="text" v-model.trim="schoolForm.name" :maxlength="50" clearable />
+                <Input type="text" v-model.trim="schoolForm.name" :maxlength="50" clearable :disabled="disabled"/>
               </FormItem>
             </Col>
             <Col span="8">
               <FormItem label="院校编码" prop="code">
-                <Input type="text" v-model.trim="schoolForm.code" :maxlength="50" clearable />
+                <Input type="text" v-model.trim="schoolForm.code" :maxlength="50" clearable :disabled="disabled"/>
               </FormItem>
             </Col>
             <Col span="8">
@@ -43,9 +43,9 @@
           </Row>
           <Row :gutter="32">
             <Col span="8">
-              <FormItem label="院校排名" prop="sort">
+              <!--<FormItem label="院校排名" prop="sort">
                 <InputNumber :max="10000" :min="1" v-model="schoolForm.sort" style="width: 100%"/>
-              </FormItem>
+              </FormItem>-->
             </Col>
             <Col span="8">
               <FormItem label="院校类型" prop="majorType">
@@ -109,24 +109,24 @@
 
       <Row> <Alert show-icon>详 细 信 息</Alert> </Row>
       <Row class="ieg-school-form-detail-img">
-        <Divider><Icon type="ios-information-circle-outline" size="16"/> 学校图片</Divider>
+        <Divider><Icon type="ios-information-circle-outline" size="16"/> 院校图片</Divider>
         <Row :gutter="32">
           <Col span="6">
-            <CUploadImg v-model="schoolForm.detail.img1Path" title="上传学校图片" action="/ieg/school/logo"/>
+            <CUploadImg v-model="schoolForm.detail.img1Path" title="上传院校图片" action="/ieg/school/logo"/>
           </Col>
           <Col span="6">
-            <CUploadImg v-model="schoolForm.detail.img2Path" title="上传学校图片" action="/ieg/school/logo"/>
+            <CUploadImg v-model="schoolForm.detail.img2Path" title="上传院校图片" action="/ieg/school/logo"/>
           </Col>
           <Col span="6">
-            <CUploadImg v-model="schoolForm.detail.img3Path" title="上传学校图片" action="/ieg/school/logo"/>
+            <CUploadImg v-model="schoolForm.detail.img3Path" title="上传院校图片" action="/ieg/school/logo"/>
           </Col>
           <Col span="6">
-            <CUploadImg v-model="schoolForm.detail.img4Path" title="上传学校图片" action="/ieg/school/logo"/>
+            <CUploadImg v-model="schoolForm.detail.img4Path" title="上传院校图片" action="/ieg/school/logo"/>
           </Col>
         </Row>
       </Row>
       <Row class="ieg-school-form-detail-row">
-        <Divider><Icon type="ios-information-circle-outline" size="16"/> 学校简介</Divider>
+        <Divider><Icon type="ios-information-circle-outline" size="16"/> 院校简介</Divider>
         <CEditor v-model="schoolForm.detail.describe" imgRef="describe"
                  imgAction="/ieg/school/detail/file" :imgData="{content: 'describe'}" />
       </Row>
@@ -157,11 +157,18 @@ import CDictSelect from '@/components/sys/dict/select'
 import CUploadImg from '@/components/layout/uploadImg'
 import CEditor from '@/components/layout/editor'
 import { save, modify, findDto } from '@/api/ieg/school'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IegSchoolForm',
   components: {
     CDictSelect, CUploadImg, CEditor
+  },
+  computed: {
+    ...mapGetters(['permissions']),
+    disabled () {
+      return !this.ieg_school_delete && !this.$CV.isEmpty(this.$route.query.schoolId)
+    }
   },
   watch: {
     area (val) {
@@ -232,8 +239,12 @@ export default {
   },
   created () {
     this.initSchool()
+    this.initPermissions()
   },
   methods: {
+    initPermissions () {
+      this.ieg_school_delete = this.permissions['ieg_school_delete']
+    },
     /**
      * 如果是修改操作，获取院校信息
      */

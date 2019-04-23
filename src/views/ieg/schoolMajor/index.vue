@@ -28,6 +28,7 @@ import CIegSchoolMajorForm from '@/views/ieg/schoolMajor/form'
 import { list, del } from '@/api/ieg/schoolMajor'
 import store from '@/store'
 import { list as submitList } from '@/api/ieg/schoolSubmit'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IegSchoolMajor',
@@ -35,6 +36,7 @@ export default {
     CIegSchoolMajorForm
   },
   computed: {
+    ...mapGetters(['permissions']),
     /**
      * 列表高度
      */
@@ -79,10 +81,14 @@ export default {
     }
   },
   created () {
+    this.initPermissions()
     this.initSubmitList()
     this.initTableColumns()
   },
   methods: {
+    initPermissions () {
+      this.ieg_school_delete = this.permissions['ieg_school_delete']
+    },
     /**
      * initTableColumns
      */
@@ -102,7 +108,6 @@ export default {
           tooltip: true,
           render: (h, params) => { return h('span', this.courseType[params.row.courseType]) }
         },
-        {title: '校内排名', key: 'sort', tooltip: true},
         {title: '学费(元)', key: 'money', tooltip: true},
         {title: '学制(年)', key: 'studyLength', tooltip: true},
         {title: '归属院系', key: 'facultyName', tooltip: true},
@@ -143,12 +148,14 @@ export default {
           on: { click: () => { this.modifyHandle(params.row) } }
         }, '编辑')
       )
-      hContent.push(
-        h('Button', {
-          props: { type: 'error', ghost: true },
-          on: { click: () => { this.deleteHandle(params.row) } }
-        }, '删除')
-      )
+      if (this.ieg_school_delete) {
+        hContent.push(
+          h('Button', {
+            props: { type: 'error', ghost: true },
+            on: { click: () => { this.deleteHandle(params.row) } }
+          }, '删除')
+        )
+      }
       /* hContent.push(
         h('Button', {
           props: { type: 'primary', ghost: true },

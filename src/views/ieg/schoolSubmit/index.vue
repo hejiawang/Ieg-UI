@@ -18,6 +18,7 @@
 import { list, del } from '@/api/ieg/schoolSubmit'
 import store from '@/store'
 import CIegSchoolSubmitForm from '@/views/ieg/schoolSubmit/form'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IegSchoolSubmit',
@@ -25,6 +26,7 @@ export default {
     CIegSchoolSubmitForm
   },
   computed: {
+    ...mapGetters(['permissions']),
     /**
      * 列表高度
      */
@@ -57,10 +59,14 @@ export default {
     }
   },
   created () {
+    this.initPermissions()
     this.initList()
     this.initTableColumns()
   },
   methods: {
+    initPermissions () {
+      this.ieg_school_delete = this.permissions['ieg_school_delete']
+    },
     /**
      * init table colums
      */
@@ -90,12 +96,14 @@ export default {
           on: { click: () => { this.modifyHandle(params.row) } }
         }, '编辑')
       )
-      hContent.push(
-        h('Button', {
-          props: { type: 'error', ghost: true },
-          on: { click: () => { this.deleteHandle(params.row) } }
-        }, '删除')
-      )
+      if (this.ieg_school_delete) {
+        hContent.push(
+          h('Button', {
+            props: { type: 'error', ghost: true },
+            on: { click: () => { this.deleteHandle(params.row) } }
+          }, '删除')
+        )
+      }
 
       return h('div', hContent)
     },

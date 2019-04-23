@@ -9,11 +9,11 @@
           </FormItem>
         </Col>
         <Col span="12">
-          <FormItem label="院系网址" prop="website">
+          <!--<FormItem label="院系网址" prop="website">
             <Input type="text" v-model.trim="facultyForm.website" :maxlength="50" clearable >
               <span slot="prepend">http://</span>
             </Input>
-          </FormItem>
+          </FormItem>-->
         </Col>
       </Row>
       <!-- <Row :gutter="32">

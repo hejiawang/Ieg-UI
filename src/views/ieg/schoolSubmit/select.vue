@@ -1,5 +1,5 @@
 <template>
-  <Select v-model="submitId" style="width:100%" clearable >
+  <Select v-model="submitId" style="width:100%" clearable :disabled="disabled">
     <Option v-for="f in submitList" :key="f.id" :value="f.id" >{{f.code}}</Option>
   </Select>
 </template>
@@ -9,7 +9,8 @@ export default {
   name: 'CIegSubmitSelect',
   props: {
     value: {type: String, default: '', required: true},
-    schoolId: {type: String, default: '', required: true}
+    schoolId: {type: String, default: '', required: true},
+    disabled: {type: Boolean, default: false, required: false}
   },
   watch: {
     value (val) { this.submitId = val },

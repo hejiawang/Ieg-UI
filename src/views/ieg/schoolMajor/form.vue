@@ -7,7 +7,7 @@
           <Row :gutter="32">
             <Col span="8">
               <FormItem label="专业名称" prop="name" >
-                <Input type="text" v-model.trim="schoolMajorForm.name" :maxlength="50" clearable />
+                <Input type="text" v-model.trim="schoolMajorForm.name" :maxlength="50" clearable :disabled="disabled"/>
               </FormItem>
             </Col>
             <Col span="8">
@@ -17,25 +17,25 @@
             </Col>
             <Col span="8">
               <FormItem label="专业编码" prop="code">
-                <Input type="text" v-model.trim="schoolMajorForm.code" :maxlength="50" clearable />
+                <Input type="text" v-model.trim="schoolMajorForm.code" :maxlength="50" clearable :disabled="disabled"/>
               </FormItem>
             </Col>
           </Row>
           <Row :gutter="32">
             <Col span="8">
               <FormItem label="学历层次" prop="degreeType">
-                <RadioGroup v-model="schoolMajorForm.degreeType" @on-change="selectDegreeType">
-                  <Radio label="B">本科</Radio>
-                  <Radio label="Z">专科</Radio>
+                <RadioGroup v-model="schoolMajorForm.degreeType" @on-change="selectDegreeType" >
+                  <Radio label="B" :disabled="disabled">本科</Radio>
+                  <Radio label="Z" :disabled="disabled">专科</Radio>
                 </RadioGroup>
               </FormItem>
             </Col>
             <Col span="8">
               <FormItem label="学科类型" prop="degreeType">
-                <RadioGroup v-model="schoolMajorForm.courseType">
-                  <Radio label="W">文科</Radio>
-                  <Radio label="L">理科</Radio>
-                  <Radio label="A">文科/理科</Radio>
+                <RadioGroup v-model="schoolMajorForm.courseType" >
+                  <Radio label="W" :disabled="disabled">文科</Radio>
+                  <Radio label="L" :disabled="disabled">理科</Radio>
+                  <Radio label="A" :disabled="disabled">文科/理科</Radio>
                 </RadioGroup>
               </FormItem>
             </Col>
@@ -48,7 +48,7 @@
           <Row :gutter="32">
             <Col span="8">
               <FormItem label="投档单位" prop="submitId">
-                <CIegSubmitSelect v-model="schoolMajorForm.submitId" :schoolId="schoolId"/>
+                <CIegSubmitSelect v-model="schoolMajorForm.submitId" :schoolId="schoolId" :disabled="disabled"/>
               </FormItem>
             </Col>
             <Col span="8">
@@ -132,6 +132,7 @@ import CIegFacultySelect from '@/views/ieg/faculty/select'
 import CIegSubmitSelect from '@/views/ieg/schoolSubmit/select'
 import CDictSelect from '@/components/sys/dict/select'
 import CIegSPMajor from '@/views/ieg/major/selectParentMajor'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IegSchoolMajor_Form',
@@ -153,6 +154,10 @@ export default {
     fCourseSci (val) { this.schoolMajorForm.ratioCourseArts = 100 - val }
   },
   computed: {
+    ...mapGetters(['permissions']),
+    disabled () {
+      return !this.ieg_school_delete && this.type === 'modify'
+    },
     title () {
       let titleAry = {
         'modify': '编辑院校专业信息',
@@ -202,7 +207,13 @@ export default {
       }
     }
   },
+  created () {
+    this.initPermissions()
+  },
   methods: {
+    initPermissions () {
+      this.ieg_school_delete = this.permissions['ieg_school_delete']
+    },
     selectDegreeType (o) {
       this.schoolMajorForm.majorTwoId = null
     },

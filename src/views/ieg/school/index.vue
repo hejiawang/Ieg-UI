@@ -3,13 +3,13 @@
     <Row style="height: 60px;">
       <Col span="16">
         <Button type="primary" icon="ios-add-circle-outline" v-if="ieg_school_raise"
-                @click="raiseHandle">新增学院</Button>
-        <Button type="warning" icon="ios-brush-outline" :disabled="currentSchoolIndex === null"
-                @click="modifyHandle">修改学院</Button>
+                @click="raiseHandle">新增院校</Button>
         <Button type="error" icon="ios-trash-outline" :disabled="currentSchoolIndex === null" v-if="ieg_school_delete"
-                @click="deleteHandle">删除学院</Button>
+                @click="deleteHandle">删除院校</Button>
+        <Button type="warning" icon="ios-brush-outline" :disabled="currentSchoolIndex === null"
+                @click="modifyHandle">修改院校</Button>
         <Button type="success" icon="ios-at-outline" :disabled="currentSchoolIndex === null"
-                @click="facultyHandle">院系信息</Button>
+                @click="facultyHandle">学院信息</Button>
         <Button type="primary" icon="logo-designernews" :disabled="currentSchoolIndex === null"
                 @click="majorHandle">专业信息</Button>
         <Button type="info" icon="ios-at-outline" :disabled="currentSchoolIndex === null"
@@ -119,7 +119,6 @@ export default {
           key: 'areaProvince',
           render: (h, params) => { return h('span', pca['86'][params.row.areaProvince]) }
         },
-        {title: '院校排名', key: 'sort', width: 120, tooltip: true},
         {
           title: '院校隶属',
           key: 'attachTypeName',

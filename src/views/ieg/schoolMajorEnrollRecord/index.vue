@@ -19,6 +19,7 @@
 import CIegSchoolMajorEnrollRecordForm from '@/views/ieg/schoolMajorEnrollRecord/form'
 import { list, del } from '@/api/ieg/schoolMajorEnrollRecord'
 import store from '@/store'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IegSchoolMajorEnrollRecord',
@@ -26,6 +27,7 @@ export default {
     CIegSchoolMajorEnrollRecordForm
   },
   computed: {
+    ...mapGetters(['permissions']),
     /**
      * 列表高度
      */
@@ -65,10 +67,14 @@ export default {
     }
   },
   created () {
+    this.initPermissions()
     this.initTableColumns()
     this.initList()
   },
   methods: {
+    initPermissions () {
+      this.ieg_school_delete = this.permissions['ieg_school_delete']
+    },
     initTableColumns () {
       this.enrollTableColumns = [
         {title: '录取年份', key: 'year', tooltip: true},
@@ -80,10 +86,16 @@ export default {
             return h('Tag', { props: { color: 'green' } }, this.courseType[params.row.type])
           }
         },
-        {title: '计划招收人数', key: 'planNumber', tooltip: true},
-        {title: '实际招收人数', key: 'realNumber', tooltip: true},
         {title: '最低分', key: 'scoreMin', tooltip: true},
-        {title: '最高分', key: 'scoreMax', tooltip: true},
+        {title: '最高分', key: 'scoreMax', tooltip: true}
+      ]
+
+      if (this.ieg_school_delete) {
+        this.enrollTableColumns.push({title: '计划招收人数', key: 'planNumber', tooltip: true})
+        this.enrollTableColumns.push({title: '实际招收人数', key: 'realNumber', tooltip: true})
+      }
+
+      this.enrollTableColumns.push(
         {
           title: '操作',
           key: 'action',
@@ -92,7 +104,7 @@ export default {
           width: 410,
           render: (h, params) => { return this.bindEvent(h, params) }
         }
-      ]
+      )
     },
     /**
      * 列表按钮
@@ -106,12 +118,14 @@ export default {
           on: { click: () => { this.modifyHandle(params.row) } }
         }, '编辑')
       )
-      hContent.push(
-        h('Button', {
-          props: { type: 'error', ghost: true },
-          on: { click: () => { this.deleteHandle(params.row) } }
-        }, '删除')
-      )
+      if (this.ieg_school_delete) {
+        hContent.push(
+          h('Button', {
+            props: { type: 'error', ghost: true },
+            on: { click: () => { this.deleteHandle(params.row) } }
+          }, '删除')
+        )
+      }
 
       return h('div', hContent)
     },

@@ -3,7 +3,7 @@
          @on-visible-change="visibleChange" width="500">
     <Form ref="submitForm" :model="submitForm" :rules="submitRules" :label-width="90">
       <FormItem label="编码" prop="code">
-        <Input type="text" v-model.trim="submitForm.code" :maxlength="50" clearable />
+        <Input type="text" v-model.trim="submitForm.code" :maxlength="50" clearable :disabled="!ieg_school_delete && type === 'modify'"/>
       </FormItem>
       <FormItem label="描述" prop="describe">
         <Input type="text" v-model.trim="submitForm.describe" :maxlength="50" clearable />
@@ -13,6 +13,7 @@
 </template>
 <script>
 import { save, modify } from '@/api/ieg/schoolSubmit'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IegSchoolSubmit_Form',
@@ -27,6 +28,7 @@ export default {
     isShow (val) { this.$emit('input', val) }
   },
   computed: {
+    ...mapGetters(['permissions']),
     title () {
       let titleAry = {
         'modify': '编辑投档单位信息',
@@ -48,7 +50,13 @@ export default {
       }
     }
   },
+  created () {
+    this.initPermissions()
+  },
   methods: {
+    initPermissions () {
+      this.ieg_school_delete = this.permissions['ieg_school_delete']
+    },
     /**
      * ok handle
      */

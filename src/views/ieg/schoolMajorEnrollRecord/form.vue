@@ -11,10 +11,10 @@
           <Radio label="W">文科</Radio>
         </RadioGroup>
       </FormItem>
-      <FormItem label="计划人数" prop="planNumber">
+      <FormItem label="计划人数" prop="planNumber" v-show="ieg_school_delete">
         <InputNumber :max="10000" :min="0" v-model="recordForm.planNumber" style="width: 100%"/>
       </FormItem>
-      <FormItem label="实际人数" prop="realNumber">
+      <FormItem label="实际人数" prop="realNumber" v-show="ieg_school_delete">
         <InputNumber :max="10000" :min="0" v-model="recordForm.realNumber" style="width: 100%"/>
       </FormItem>
       <FormItem label="最高分数" prop="scoreMax">
@@ -29,6 +29,7 @@
 <script>
 import moment from 'moment'
 import { save, modify } from '@/api/ieg/schoolMajorEnrollRecord'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IegSchoolMajorEnrollRecord_Form',
@@ -43,6 +44,7 @@ export default {
     isShow (val) { this.$emit('input', val) }
   },
   computed: {
+    ...mapGetters(['permissions']),
     title () {
       let titleAry = {
         'modify': '编辑录取信息',
@@ -69,9 +71,13 @@ export default {
     }
   },
   created () {
+    this.initPermissions()
     this.buildNowYear()
   },
   methods: {
+    initPermissions () {
+      this.ieg_school_delete = this.permissions['ieg_school_delete']
+    },
     buildNowYear () {
       this.recordForm.year = parseInt(moment(new Date()).format('YYYY'))
     },

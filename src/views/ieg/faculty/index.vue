@@ -32,10 +32,10 @@
             <span><Icon type="ios-pulse" size="17"/> 院系排名： {{currentFaculty.sort}} </span>
             <Divider type="vertical" />
           </Col> -->
-          <Col span="6" v-if="currentFaculty && currentFaculty.website">
+          <!--<Col span="6" v-if="currentFaculty && currentFaculty.website">
             <span><Icon type="logo-linkedin" size="17"/> 院系网址： {{currentFaculty.website}} </span>
             <Divider type="vertical" />
-          </Col>
+          </Col>-->
           <!-- <Col span="6" v-if="currentFaculty && currentFaculty.phone">
             <span><Icon type="md-call" size="17"/> 联系方式： {{currentFaculty.phone}} </span>
           </Col> -->
