@@ -1,7 +1,7 @@
 <template>
   <Header>
     <div class="cheader-images" style="float: left">
-      <img src="../../../assets/images/layout/logo.jpg">
+      <img src="../../../assets/images/layout/logo.png">
     </div>
     <div class="cheader-info">
       <span>{{website.title.header}}</span>
