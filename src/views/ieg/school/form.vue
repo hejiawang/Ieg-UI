@@ -112,16 +112,16 @@
         <Divider><Icon type="ios-information-circle-outline" size="16"/> 院校图片</Divider>
         <Row :gutter="32">
           <Col span="6">
-            <CUploadImg v-model="schoolForm.detail.img1Path" title="上传院校图片" action="/ieg/school/logo"/>
+            <CUploadImg v-model="schoolForm.detail.img1Path" title="上传院校图片" action="/ieg/school/imgInfo"/>
           </Col>
           <Col span="6">
-            <CUploadImg v-model="schoolForm.detail.img2Path" title="上传院校图片" action="/ieg/school/logo"/>
+            <CUploadImg v-model="schoolForm.detail.img2Path" title="上传院校图片" action="/ieg/school/imgInfo"/>
           </Col>
           <Col span="6">
-            <CUploadImg v-model="schoolForm.detail.img3Path" title="上传院校图片" action="/ieg/school/logo"/>
+            <CUploadImg v-model="schoolForm.detail.img3Path" title="上传院校图片" action="/ieg/school/imgInfo"/>
           </Col>
           <Col span="6">
-            <CUploadImg v-model="schoolForm.detail.img4Path" title="上传院校图片" action="/ieg/school/logo"/>
+            <CUploadImg v-model="schoolForm.detail.img4Path" title="上传院校图片" action="/ieg/school/imgInfo"/>
           </Col>
         </Row>
       </Row>
