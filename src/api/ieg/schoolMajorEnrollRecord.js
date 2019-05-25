@@ -36,6 +36,18 @@ export const save = (obj) => {
 }
 
 /**
+ * 校验信息是否正确
+ * @param obj
+ */
+export const checkInfo = (obj) => {
+  return request({
+    url: '/ieg/school/major/enroll/record/checkInfo',
+    method: 'post',
+    data: obj
+  })
+}
+
+/**
  * 修改院校录取信息
  * @param obj 录取信息
  */

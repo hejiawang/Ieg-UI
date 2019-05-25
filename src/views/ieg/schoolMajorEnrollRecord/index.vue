@@ -86,8 +86,31 @@ export default {
             return h('Tag', { props: { color: 'green' } }, this.courseType[params.row.type])
           }
         },
-        {title: '最低分', key: 'scoreMin', tooltip: true},
-        {title: '最高分', key: 'scoreMax', tooltip: true}
+        {
+          title: '是否校验',
+          key: 'state',
+          tooltip: true,
+          render: (h, params) => {
+            if (params.row.state === 'Yes') {
+              return h('Tag', { props: { color: 'green' } }, '校验通过')
+            } else {
+              return h('Tag', { props: { color: 'warning' } }, '未校验')
+            }
+          }
+        },
+        {
+          title: '最低分',
+          key: 'scoreMin',
+          tooltip: true,
+          render: (h, params) => {
+            if (params.row.state === 'No' || params.row.scoreMin === 0) {
+              return h('span', '--')
+            } else {
+              return h('span', params.row.scoreMin)
+            }
+          }
+        }
+        /* {title: '最高分', key: 'scoreMax', tooltip: true} */
       ]
 
       if (this.ieg_school_delete) {
@@ -124,6 +147,24 @@ export default {
             props: { type: 'error', ghost: true },
             on: { click: () => { this.deleteHandle(params.row) } }
           }, '删除')
+        )
+      } else {
+        if (this.$CV.isEmpty(params.row.planNumber) && this.$CV.isEmpty(params.row.realNumber)) {
+          hContent.push(
+            h('Button', {
+              props: { type: 'error', ghost: true },
+              on: { click: () => { this.deleteHandle(params.row) } }
+            }, '删除')
+          )
+        }
+      }
+
+      if (params.row.state === 'No' && !this.$CV.isEmpty(params.row.scoreMin)) {
+        hContent.push(
+          h('Button', {
+            props: { type: 'success', ghost: true },
+            on: { click: () => { this.checkHandle(params.row) } }
+          }, '校验')
         )
       }
 
@@ -175,6 +216,9 @@ export default {
           })
         }
       })
+    },
+    checkHandle (row) {
+      this.currentRecord = row; this.formType = 'check'; this.showForm = true
     }
   }
 }
