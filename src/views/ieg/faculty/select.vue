@@ -9,7 +9,7 @@ import { list } from '@/api/ieg/faculty'
 export default {
   name: 'CIegFacultySelect',
   props: {
-    value: {type: String, default: '', required: true},
+    value: {required: true},
     schoolId: {type: String, default: '', required: true}
   },
   watch: {

@@ -224,7 +224,8 @@ export default {
       this.$refs.schoolMajorForm.validate((valid) => {
         if (valid) {
           this.schoolMajorForm.schoolId = this.schoolId
-          if (this.schoolMajorForm.recordType === 'Other') this.schoolMajorForm.majorId = 'other_three'
+          // if (this.schoolMajorForm.recordType === 'Other') this.schoolMajorForm.majorId = 'other_three'
+          console.info(this.schoolMajorForm.money)
 
           this[this.type]()
         } else {
