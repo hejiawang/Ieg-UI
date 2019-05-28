@@ -82,27 +82,27 @@
       <Row :gutter="32">
         <Col span="4" offset="4">
           <FormItem label="综合评价" prop="satisfy">
-            <Rate allow-half v-model="schoolForm.satisfy"/>
+            <Rate clearable allow-half v-model="schoolForm.satisfy"/>
           </FormItem>
         </Col>
         <Col span="4">
           <FormItem label="环境指数" prop="ratioSatisfyEnvironment">
-            <Rate allow-half v-model="schoolForm.ratioSatisfyEnvironment"/>
+            <Rate clearable allow-half v-model="schoolForm.ratioSatisfyEnvironment"/>
           </FormItem>
         </Col>
         <Col span="4">
           <FormItem label="生活指数" prop="ratioSatisfyLife">
-            <Rate allow-half v-model="schoolForm.ratioSatisfyLife"/>
+            <Rate clearable allow-half v-model="schoolForm.ratioSatisfyLife"/>
           </FormItem>
         </Col>
         <Col span="4">
           <FormItem label="教育指数" prop="ratioSatisfyEdu">
-            <Rate allow-half v-model="schoolForm.ratioSatisfyEdu"/>
+            <Rate clearable allow-half v-model="schoolForm.ratioSatisfyEdu"/>
           </FormItem>
         </Col>
         <Col span="4">
           <FormItem label="教育指数" prop="ratioSatisfyWork">
-            <Rate allow-half v-model="schoolForm.ratioSatisfyWork"/>
+            <Rate clearable allow-half v-model="schoolForm.ratioSatisfyWork"/>
           </FormItem>
         </Col>
       </Row>

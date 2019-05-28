@@ -96,29 +96,29 @@
         </Col>
         <Col span="6">
           <FormItem label="综合评价" prop="ratioAssessWhole">
-            <Rate allow-half v-model="majorForm.ratioAssessWhole"/>
+            <Rate clearable allow-half v-model="majorForm.ratioAssessWhole"/>
           </FormItem>
         </Col>
       </Row>
       <Row  :gutter="32">
         <Col span="6">
           <FormItem label="就业评价" prop="ratioAssessWork">
-            <Rate allow-half v-model="majorForm.ratioAssessWork"/>
+            <Rate clearable allow-half v-model="majorForm.ratioAssessWork"/>
           </FormItem>
         </Col>
         <Col span="6">
           <FormItem label="教学评价" prop="ratioAssessStudy">
-            <Rate allow-half v-model="majorForm.ratioAssessStudy"/>
+            <Rate clearable allow-half v-model="majorForm.ratioAssessStudy"/>
           </FormItem>
         </Col>
         <Col span="6">
           <FormItem label="办学评价" prop="ratioAssessShool">
-            <Rate allow-half v-model="majorForm.ratioAssessShool"/>
+            <Rate clearable allow-half v-model="majorForm.ratioAssessShool"/>
           </FormItem>
         </Col>
         <Col span="6">
           <FormItem label="难易评价" prop="ratioAssessDifficulty">
-            <Rate allow-half v-model="majorForm.ratioAssessDifficulty"/>
+            <Rate clearable allow-half v-model="majorForm.ratioAssessDifficulty"/>
           </FormItem>
         </Col>
       </Row>

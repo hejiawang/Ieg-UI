@@ -62,7 +62,7 @@ export default {
       loading: true,
       isShow: false,
       recordForm: {
-        year: 2000,
+        year: 2016,
         scoreMin: null,
         scoreMax: 0,
         planNumber: null,
@@ -145,7 +145,7 @@ export default {
       this.$refs.recordForm.resetFields()
 
       this.recordForm = {
-        year: 2000,
+        year: 2016,
         scoreMin: null,
         scoreMax: null,
         planNumber: null,
