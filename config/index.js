@@ -32,6 +32,13 @@ module.exports = {
           '^/ieg': '/ieg'
         }
       },
+      '/report': {
+        target: baseUrl,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/report': '/report'
+        }
+      },
       '/assets': {
         target: baseUrl,
         changeOrigin: true,

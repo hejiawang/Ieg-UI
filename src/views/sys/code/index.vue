@@ -53,13 +53,13 @@ export default {
   data () {
     return {
       codeForm: {
-        author: null,
-        name: 'sys',
+        author: 'HeJiawang',
+        name: 'report',
         tableName: null,
-        outputDir: 'D:/WorkSpace/JMonkey2.0/src/main/java',
+        outputDir: 'D:/WorkSpace/ieg/src/main/java',
         dbIp: 'localhost',
         dbPost: '3306',
-        dbTable: 'j_monkey',
+        dbTable: 'ieg',
         dbName: 'root',
         dbPassword: '123456'
       },
