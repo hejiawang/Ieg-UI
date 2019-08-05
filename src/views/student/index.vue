@@ -1,12 +1,28 @@
 <template>
   <Layout v-layoutIn class="app-student">
     <Row style="height: 60px;">
-      <Col span="16">
+      <Col span="8">
         <Button type="primary" icon="ios-add-circle-outline"
                 @click="raiseHandle">新增学生</Button>
       </Col>
-      <Col span="8">
-        <!-- TODO -->
+      <Col span="16">
+        <Form ref="searchForm" :model="listQuery" :label-width="80" inline style="float: right">
+          <FormItem label="学生编号">
+            <Input type="text" v-model="listQuery.code" />
+          </FormItem>
+          <FormItem label="学生姓名">
+            <Input type="text" v-model="listQuery.name" />
+          </FormItem>
+          <FormItem label="联系方式">
+            <Input type="text" v-model="listQuery.phone" />
+          </FormItem>
+          <FormItem :label-width="0">
+            <ButtonGroup>
+              <Button icon="ios-search" @click="search" />
+              <Button icon="ios-trash-outline" @click="restSearch" />
+            </ButtonGroup>
+          </FormItem>
+        </Form>
       </Col>
     </Row>
     <Row>
@@ -32,7 +48,7 @@ export default {
   },
   computed: {
     tableHeight () {
-      return store.getters.windowHeight - 280
+      return store.getters.windowHeight - 290
     }
   },
   data () {
@@ -41,6 +57,9 @@ export default {
       showForm: false,
       listLoading: false,
       listQuery: {
+        code: null,
+        name: null,
+        phone: null,
         size: 10,
         total: 0
       },
@@ -57,6 +76,7 @@ export default {
       this.schoolTableColumns = [
         {title: '编码', key: 'code', tooltip: true},
         {title: '名称', key: 'name', tooltip: true},
+        {title: '联系方式', key: 'phone', tooltip: true},
         {title: '性别', key: 'sex', tooltip: true},
         {title: '出生日期', key: 'birthday', tooltip: true},
         {title: '年级', key: 'grade', tooltip: true},
@@ -78,6 +98,7 @@ export default {
     raiseHandle () {
       this.formType = 'raise'; this.showForm = true
     },
+    search () {},
     restSearch () {}
   }
 }
