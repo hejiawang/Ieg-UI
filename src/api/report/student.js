@@ -46,3 +46,30 @@ export const del = (id) => {
     method: 'delete'
   })
 }
+
+/**
+ * checkCode
+ * @param id id
+ * @param code code
+ */
+export const checkCode = (id, code) => {
+  return request({
+    url: '/report/student/checkCode',
+    data: {
+      id: id,
+      code: code
+    },
+    method: 'post'
+  })
+}
+
+/**
+ * find
+ * @param id id
+ */
+export const find = (id) => {
+  return request({
+    url: '/report/student/find/' + id,
+    method: 'get'
+  })
+}

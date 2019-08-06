@@ -33,13 +33,14 @@
       <CPage v-model="listQuery" @on-list="initList" ref="studentPage"/>
     </Row>
 
-    <CStudentForm v-model="showForm" :type="formType" @refresh="restSearch"/>
+    <CStudentForm v-model="showForm" :type="formType" :studentId="currentStudentId" @refresh="restSearch"/>
   </Layout>
 </template>
 <script>
 import store from '@/store'
-import { listAll } from '@/api/report/student'
+import { listAll, del } from '@/api/report/student'
 import CStudentForm from '@/views/student/form'
+import moment from 'moment'
 
 export default {
   name: 'Student',
@@ -64,7 +65,10 @@ export default {
         total: 0
       },
       tableColumns: [],
-      tableData: []
+      tableData: [],
+      currentStudentId: null,
+      sexFilter: { 'Man': '男', 'Woman': '女', 'Other': '其他' },
+      gradeFilter: { 'One': '高一', 'Two': '高二', 'Three': '高三' }
     }
   },
   created () {
@@ -73,18 +77,78 @@ export default {
   },
   methods: {
     initTableColumns () {
-      this.schoolTableColumns = [
+      this.tableColumns = [
         {title: '编码', key: 'code', tooltip: true},
         {title: '名称', key: 'name', tooltip: true},
         {title: '联系方式', key: 'phone', tooltip: true},
-        {title: '性别', key: 'sex', tooltip: true},
-        {title: '出生日期', key: 'birthday', tooltip: true},
-        {title: '年级', key: 'grade', tooltip: true},
-        {title: '到访日期', key: 'reportDate', tooltip: true},
+        {
+          title: '性别',
+          width: '80',
+          key: 'sex',
+          render: (h, params) => { return h('span', this.sexFilter[params.row.sex]) }
+        },
+        {
+          title: '出生日期',
+          key: 'birthday',
+          render: (h, params) => {
+            return h('span', moment(params.row.birthday).format('YYYY-MM-DD'))
+          }
+        },
+        {
+          title: '年级',
+          key: 'grade',
+          render: (h, params) => { return h('span', this.gradeFilter[params.row.grade]) }
+        },
+        {
+          title: '到访日期',
+          key: 'reportDate',
+          render: (h, params) => {
+            return h('span', moment(params.row.reportDate).format('YYYY-MM-DD'))
+          }
+        },
         {title: '在读学校', key: 'schoolName', tooltip: true},
-        {title: '毕业时间', key: 'schoolDate', tooltip: true},
-        {title: '接待顾问', key: 'userId', tooltip: true}
+        {
+          title: '毕业时间',
+          key: 'schoolDate',
+          render: (h, params) => {
+            return h('span', moment(params.row.schoolDate).format('YYYY-MM-DD'))
+          }
+        },
+        {title: '接待顾问', key: 'userName', tooltip: true},
+        {
+          title: '操作',
+          key: 'action',
+          align: 'center',
+          fixed: 'right',
+          width: 300,
+          render: (h, params) => { return this.bindEvent(h, params) }
+        }
       ]
+    },
+    bindEvent (h, params) {
+      let hContent = []
+
+      hContent.push(
+        h('Button', {
+          props: { type: 'warning', ghost: true },
+          on: { click: () => { this.modifyHandle(params.row) } }
+        }, '编辑')
+      )
+      hContent.push(
+        h('Button', {
+          props: { type: 'error', ghost: true },
+          on: { click: () => { this.deleteHandle(params.row) } }
+        }, '删除')
+      )
+
+      hContent.push(
+        h('Button', {
+          props: { type: 'success', ghost: true },
+          on: { click: () => { this.recordHandle(params.row) } }
+        }, '来访记录')
+      )
+
+      return h('div', hContent)
     },
     initList () {
       this.listLoading = true
@@ -96,10 +160,33 @@ export default {
       })
     },
     raiseHandle () {
-      this.formType = 'raise'; this.showForm = true
+      this.formType = 'raise'; this.showForm = true; this.currentStudentId = null
     },
-    search () {},
-    restSearch () {}
+    modifyHandle (row) {
+      this.formType = 'modify'; this.showForm = true; this.currentStudentId = row.id
+    },
+    recordHandle (row) {},
+    deleteHandle (row) {
+      this.$CDelete({
+        'content': '<p>名称为 <span style="color: #f60">' + row.name + '</span> 的学生信息将被删除</p><p>是否继续？</p>',
+        'confirm': () => {
+          del(row.id).then(() => {
+            this.restSearch()
+            this.$Message.success('删除成功')
+          })
+        }
+      })
+    },
+    search () {
+      this.$refs.studentPage.rest()
+      this.initList()
+    },
+    restSearch () {
+      ['name', 'code', 'phone'].forEach(param => (
+        this.listQuery[param] = null
+      ))
+      this.search()
+    }
   }
 }
 </script>
