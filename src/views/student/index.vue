@@ -165,7 +165,11 @@ export default {
     modifyHandle (row) {
       this.formType = 'modify'; this.showForm = true; this.currentStudentId = row.id
     },
-    recordHandle (row) {},
+    recordHandle (row) {
+      this.$router.replace(
+        {path: '/student/record', query: {studentId: row.id, studentName: row.name}}
+      )
+    },
     deleteHandle (row) {
       this.$CDelete({
         'content': '<p>名称为 <span style="color: #f60">' + row.name + '</span> 的学生信息将被删除</p><p>是否继续？</p>',

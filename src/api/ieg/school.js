@@ -13,6 +13,18 @@ export const list = (query) => {
 }
 
 /**
+ * listAll
+ * @param query query
+ */
+export const listAll = (query) => {
+  return request({
+    url: '/ieg/school/listAll',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
  * 保存院校信息
  * @param obj 院校信息
  */
