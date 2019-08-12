@@ -9,10 +9,10 @@
     </Row>
 
     <Row>
-      <Table :height="tableHeight" border :columns="tableColumns" :data="tableData" :loading="listLoading" stripe />
+      <Table :height="300" border :columns="tableColumns" :data="tableData" :loading="listLoading" stripe />
     </Row>
 
-    <Row style="height: 100%;">
+    <Row>
       1
     </Row>
 
@@ -20,7 +20,6 @@
   </Layout>
 </template>
 <script>
-import store from '@/store'
 import { list } from '@/api/report/record'
 import moment from 'moment'
 import CStudentRecordForm from '@/views/student/record/form'
@@ -36,9 +35,6 @@ export default {
     },
     studentId () {
       return this.$route.query.studentId
-    },
-    tableHeight () {
-      return store.getters.windowHeight - 600
     }
   },
   data () {
