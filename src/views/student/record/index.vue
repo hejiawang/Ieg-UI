@@ -9,11 +9,30 @@
     </Row>
 
     <Row>
-      <Table :height="300" border :columns="tableColumns" :data="tableData" :loading="listLoading" stripe />
+      <RadioGroup v-model="currentIndex" vertical style="width: 100%;">
+        <Table :height="300" border :columns="tableColumns" :data="tableData"
+               :loading="listLoading" stripe @on-row-click="clickTable"/>
+      </RadioGroup>
     </Row>
 
-    <Row>
-      1
+    <Row :gutter="32" style="margin-top: 20px; height: calc(100% - 370px);">
+      <Col :span="colSpan" style="height: 100%;" v-if="currentIndex !== null">
+        <Card >
+          <div slot="title">
+            <span style="color: #17233d; font-weight: bold;"> {{cRecordDate}} </span>
+          </div>
+          <CStudentRecordBar :value="cRecord" style="height: 100%;" ref="CStudentRecordBar"/>
+        </Card>
+      </Col>
+
+      <Col span="12" style="height: 100%;" v-if="tableData.length > 1">
+        <Card >
+          <div slot="title">
+            <span style="color: #17233d; font-weight: bold;"> 考生成绩趋势图分析 </span>
+          </div>
+          <CStudentRecordLine :value="cRecordLine" style="height: 100%;" ref="CStudentRecordLine"/>
+        </Card>
+      </Col>
     </Row>
 
     <CStudentRecordForm v-model="showForm" :type="formType" :record="currentRecord" :studentId="studentId" @refresh="refresh"/>
@@ -23,11 +42,13 @@
 import { list, del } from '@/api/report/record'
 import moment from 'moment'
 import CStudentRecordForm from '@/views/student/record/form'
+import CStudentRecordBar from '@/views/student/record/charBar'
+import CStudentRecordLine from '@/views/student/record/lineBar'
 
 export default {
   name: 'StudentRecord',
   components: {
-    CStudentRecordForm
+    CStudentRecordForm, CStudentRecordBar, CStudentRecordLine
   },
   computed: {
     studentName () {
@@ -35,10 +56,92 @@ export default {
     },
     studentId () {
       return this.$route.query.studentId
+    },
+    cRecordDate () {
+      if (!this.$CV.isEmpty(this.currentIndex)) {
+        return moment(this.tableData[this.currentIndex].recordDate).format('YYYY-MM-DD') + ' 来访成绩分析'
+      } else {
+        return ''
+      }
+    },
+    colSpan () {
+      if (this.tableData.length > 1) {
+        return 12
+      } else {
+        return 24
+      }
+    },
+    cRecordLine () {
+      if (this.tableData.length > 1) {
+        let r = {
+          recordDate: [],
+          totalScore: [],
+          yuwenScore: [],
+          shuxuScore: [],
+          yingyuScore: [],
+          wuliScore: [],
+          huaxueScore: [],
+          shengwuScore: [],
+          lishiScore: [],
+          diliScore: [],
+          zhengzhiScore: []
+        }
+
+        this.tableData.forEach(d => {
+          r.recordDate.push(moment(d.recordDate).format('YYYY-MM-DD'))
+
+          r.totalScore.push(d.totalScore)
+          r.yuwenScore.push(d.yuwenScore)
+          r.shuxuScore.push(d.shuxuScore)
+          r.yingyuScore.push(d.yingyuScore)
+          r.wuliScore.push(d.wuliScore)
+          r.huaxueScore.push(d.huaxueScore)
+          r.shengwuScore.push(d.shengwuScore)
+          r.lishiScore.push(d.lishiScore)
+          r.diliScore.push(d.diliScore)
+          r.zhengzhiScore.push(d.zhengzhiScore)
+        })
+
+        r.recordDate.reverse()
+        r.totalScore.reverse()
+        r.yuwenScore.reverse()
+        r.shuxuScore.reverse()
+        r.yingyuScore.reverse()
+        r.wuliScore.reverse()
+        r.huaxueScore.reverse()
+        r.shengwuScore.reverse()
+        r.lishiScore.reverse()
+        r.diliScore.reverse()
+        r.zhengzhiScore.reverse()
+
+        return r
+      } else {
+        return []
+      }
+    },
+    cRecord () {
+      if (!this.$CV.isEmpty(this.currentIndex)) {
+        let tD = this.tableData[this.currentIndex]
+
+        return [
+          {name: '语文成绩', value: tD.yuwenScore},
+          {name: '数学成绩', value: tD.shuxuScore},
+          {name: '英语成绩', value: tD.yingyuScore},
+          {name: '物理成绩', value: tD.wuliScore},
+          {name: '化学成绩', value: tD.huaxueScore},
+          {name: '生物成绩', value: tD.shengwuScore},
+          {name: '历史成绩', value: tD.lishiScore},
+          {name: '地理成绩', value: tD.diliScore},
+          {name: '政治成绩', value: tD.zhengzhiScore}
+        ]
+      } else {
+        return []
+      }
     }
   },
   data () {
     return {
+      currentIndex: null,
       formType: '',
       showForm: false,
       listLoading: false,
@@ -54,6 +157,17 @@ export default {
   methods: {
     initTableColumns () {
       this.tableColumns = [
+        {
+          title: ' ',
+          key: 'id',
+          width: 60,
+          align: 'center',
+          render: (h, params) => {
+            return h('Radio', {
+              props: { label: params.index }
+            }, '  ')
+          }
+        },
         {
           title: '来访日期',
           key: 'recordDate',
@@ -113,6 +227,10 @@ export default {
       list({studentId: this.studentId}).then(data => {
         this.tableData = data.result
 
+        if (this.tableData.length > 0) {
+          this.currentIndex = 0
+        }
+
         this.listLoading = false
       })
     },
@@ -139,7 +257,20 @@ export default {
     },
     goBack () {
       this.$router.replace({path: '/student'})
+    },
+    clickTable (row, index) {
+      this.currentIndex = index
     }
   }
 }
 </script>
+<style lang="scss">
+  .app-student-record{
+    .ivu-card {
+      height: 100%;
+    }
+    .ivu-card-body {
+      height: calc(100% - 45px);
+    }
+  }
+</style>
