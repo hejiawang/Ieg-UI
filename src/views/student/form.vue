@@ -139,6 +139,30 @@
             </Row>
           </FormItem>
         </Col>
+        <Col span="8">
+          <FormItem label="意向城市" prop="">
+            <Row>
+              <Col span="2" offset="21">
+                <Button @click="addArea" icon="ios-add-circle-outline" />
+              </Col>
+            </Row>
+          </FormItem>
+          <FormItem
+            v-for="(item, index) in studentForm.areaList"
+            :key="index"
+            :label="'城市' + (index + 1)"
+            :prop="'areaList.' + index + '.area'"
+            :rules="{required: true, validator: validateArea, trigger: 'change'}">
+            <Row>
+              <Col span="20">
+                <al-selector v-model="item.area" level="1" data-type="code" class="al-selector" />
+              </Col>
+              <Col span="2" offset="1">
+                <Button @click="removeArea(index)" icon="ios-close-circle-outline"/>
+              </Col>
+            </Row>
+          </FormItem>
+        </Col>
       </Row>
     </Form>
   </Modal>
@@ -205,6 +229,18 @@ export default {
     ok () {
       this.$refs.studentForm.validate((valid) => {
         if (valid) {
+          if (!this.$CV.isEmpty(this.studentForm.areaList)) {
+            let areaList = []
+
+            this.studentForm.areaList.forEach(area => {
+              areaList.push(
+                {areaProvince: area.area[0], areaCity: area.area[1]}
+              )
+            })
+
+            this.studentForm.areaList = areaList
+          }
+
           this[this.type]()
         } else {
           this.loading = false
@@ -256,6 +292,18 @@ export default {
 
           find(this.studentId).then(data => {
             this.studentForm = data.result
+
+            if (!this.$CV.isEmpty(this.studentForm.areaList)) {
+              let areaList = []
+
+              this.studentForm.areaList.forEach(area => {
+                areaList.push({
+                  'area': [area.areaProvince, area.areaCity]
+                })
+              })
+
+              this.studentForm.areaList = areaList
+            }
           })
         })
       }
@@ -289,6 +337,23 @@ export default {
         })
       } else {
         this.schoolList = []
+      }
+    },
+    addArea () {
+      this.studentForm.areaList.push(
+        {
+          area: []
+        }
+      )
+    },
+    removeArea (index) {
+      this.studentForm.areaList.splice(index, 1)
+    },
+    validateArea (rule, value, callback) {
+      if (value.length < 2) {
+        callback(new Error('请选择城市'))
+      } else {
+        callback()
       }
     }
   }
