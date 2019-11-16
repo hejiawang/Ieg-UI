@@ -5,30 +5,9 @@
       <FormItem label="量表名称" prop="name">
         <Input type="text" v-model.trim="infoForm.name" :maxlength="20" clearable />
       </FormItem>
-      <Row :gutter="10">
-        <Col span="12">
-          <FormItem label="量表排序" prop="sort">
-            <InputNumber :max="1000" :min="1" v-model="infoForm.sort" style="width: 100%"/>
-          </FormItem>
-        </Col>
-        <Col span="6">
-          <FormItem label="采集表情" prop="isLook">
-            <i-switch v-model="infoForm.isLook" true-value="Yes" false-value="No">
-              <span slot="open">采集</span>
-              <span slot="close">不采集</span>
-            </i-switch>
-          </FormItem>
-        </Col>
-        <Col span="6">
-          <FormItem label="必须测评" prop="isMust">
-            <i-switch v-model="infoForm.isMust" true-value="Yes" false-value="No">
-              <span slot="open">是</span>
-              <span slot="close">否</span>
-            </i-switch>
-          </FormItem>
-        </Col>
-      </Row>
-
+      <FormItem label="量表排序" prop="sort">
+        <InputNumber :max="1000" :min="1" v-model="infoForm.sort" style="width: 100%"/>
+      </FormItem>
       <FormItem label="测评说明" prop="describe">
         <Input type="textarea" v-model.trim="infoForm.describe" :autosize="{minRows: 3,maxRows: 10}"
                :maxlength="500" clearable />

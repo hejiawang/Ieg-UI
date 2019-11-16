@@ -40,6 +40,7 @@ export default {
   methods: {
     initTableColumns () {
       this.tableColumns = [
+        {title: '排序', key: 'sort', tooltip: true, width: 80},
         {
           title: '图标',
           key: 'iconPath',
@@ -56,28 +57,7 @@ export default {
             }
           }
         },
-        {title: '名称', key: 'name', tooltip: true, width: 250},
-        {title: '排序', key: 'sort', tooltip: true, width: 120},
-        {
-          title: '是否采集表情',
-          key: 'isLook',
-          tooltip: true,
-          width: 150,
-          render: (h, params) => {
-            if (params.row.isLook === 'No') return h('Tag', { props: { color: 'error' } }, this.yesOrNo[params.row.isLook])
-            else return h('Tag', { props: { color: 'success' } }, this.yesOrNo[params.row.isLook])
-          }
-        },
-        {
-          title: '是否必须测评',
-          key: 'isMust',
-          tooltip: true,
-          width: 150,
-          render: (h, params) => {
-            if (params.row.isMust === 'No') return h('Tag', { props: { color: 'error' } }, this.yesOrNoMust[params.row.isMust])
-            else return h('Tag', { props: { color: 'success' } }, this.yesOrNoMust[params.row.isMust])
-          }
-        },
+        {title: '名称', key: 'name', tooltip: true, width: 150},
         {title: '测评说明', key: 'describe', tooltip: true},
         {
           title: '操作',
