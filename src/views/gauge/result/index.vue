@@ -66,7 +66,10 @@ export default {
       })
     },
     gaugeHandle (info) {
-      console.info(info)
+      store.commit('SET_GAUGE', info)
+      this.$router.replace(
+        {path: '/gauge/handle/describe'}
+      )
     },
     goBack () {
       this.$router.replace({path: '/student'})
