@@ -120,7 +120,7 @@ export default {
           key: 'action',
           align: 'center',
           fixed: 'right',
-          width: 300,
+          width: 380,
           render: (h, params) => { return this.bindEvent(h, params) }
         }
       ]
@@ -148,6 +148,13 @@ export default {
         }, '来访记录')
       )
 
+      hContent.push(
+        h('Button', {
+          props: { type: 'info', ghost: true },
+          on: { click: () => { this.gaugeHandle(params.row) } }
+        }, '性格测试')
+      )
+
       return h('div', hContent)
     },
     initList () {
@@ -168,6 +175,12 @@ export default {
     recordHandle (row) {
       this.$router.replace(
         {path: '/student/record', query: {studentId: row.id, studentName: row.name}}
+      )
+    },
+    gaugeHandle (row) {
+      store.commit('SET_STUDENT', {studentId: row.id, studentName: row.name})
+      this.$router.replace(
+        {path: '/gauge/result'}
       )
     },
     deleteHandle (row) {

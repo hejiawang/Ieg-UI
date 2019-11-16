@@ -12,7 +12,7 @@ echarts.registerTheme('tdTheme', tdTheme)
 export default {
   name: 'ChartBar',
   props: {
-    value: Array,
+    value: Object,
     text: String,
     subtext: String
   },

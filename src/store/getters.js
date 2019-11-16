@@ -18,7 +18,9 @@ const getters = {
   showIm: state => state.chat.showIm,
   memberList: state => state.chat.memberList,
   memberC: state => state.chat.memberC,
-  memberNotifyList: state => state.chat.memberNotifyList
+  memberNotifyList: state => state.chat.memberNotifyList,
+
+  student: state => state.student.student
 }
 
 export default getters

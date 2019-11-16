@@ -151,6 +151,11 @@ export default {
     }
   },
   created () {
+    if (this.$CV.isEmpty(this.$route.query.studentId)) {
+      this.goBack()
+      return
+    }
+
     this.initTableColumns()
     this.initList()
   },

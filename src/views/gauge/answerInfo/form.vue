@@ -12,7 +12,7 @@
         <Input type="textarea" v-model.trim="answerInfoForm.describe" :autosize="{minRows: 3,maxRows: 10}"
                :maxlength="500" clearable />
       </FormItem>
-      <FormItem label="矫正建议" prop="describe">
+      <FormItem label="专业建议" prop="describe">
         <Input type="textarea" v-model.trim="answerInfoForm.advise" :autosize="{minRows: 3,maxRows: 10}"
                :maxlength="500" clearable />
       </FormItem>

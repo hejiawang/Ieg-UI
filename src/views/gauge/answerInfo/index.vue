@@ -59,7 +59,7 @@ export default {
         {title: '名称', key: 'name', tooltip: true},
         {title: '评分规则', key: 'content', tooltip: true},
         {title: '规则解释', key: 'describe', tooltip: true},
-        {title: '矫正建议', key: 'advise', tooltip: true},
+        {title: '专业建议', key: 'advise', tooltip: true},
         {
           title: '操作',
           key: 'action',
