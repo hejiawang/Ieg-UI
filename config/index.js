@@ -39,6 +39,13 @@ module.exports = {
           '^/report': '/report'
         }
       },
+      '/gauge': {
+        target: baseUrl,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/gauge': '/gauge'
+        }
+      },
       '/assets': {
         target: baseUrl,
         changeOrigin: true,
