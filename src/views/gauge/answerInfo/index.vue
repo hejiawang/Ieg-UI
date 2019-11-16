@@ -1,25 +1,14 @@
 <template>
   <Layout v-layoutIn class="app-gauge-answer-info">
-    <Row class="app-title">
-      <Col span="10" offset="2" class="app-title-span">
-        {{gaugeName}} 评分规则
-      </Col>
-      <Col span="10">
-        <div class="cheader-system">
-          <div class="cheader-system-y" style="border-left: none">
-            <a @click="goBack()">
-              <Row class="cheader-system-title"> <Icon type="ios-undo" size="30" /></Row>
-              <Row class="cheader-system-content"> <span>返回</span></Row>
-            </a>
-          </div>
-        </div>
-      </Col>
+    <Row style="height: 60px;">
+      <Row :gutter="32">
+        <Col span="22"><Alert show-icon>{{gaugeName}} 评分规则</Alert></Col>
+        <Col span="2"><Button long type="info" icon="ios-undo" @click="goBack"> 返 回 </Button></Col>
+      </Row>
     </Row>
 
     <Row style="height: 100%;">
-      <Col offset="2" span="20" style="height: 100%;">
-        <Table :height="tableHeight" :columns="tableColumns" :data="tableData" :loading="listLoading" stripe />
-      </Col>
+      <Table :height="tableHeight" :columns="tableColumns" :data="tableData" :loading="listLoading" stripe />
     </Row>
 
     <CGaugeAnswerInfoForm v-model="showForm" :answerInfo="currentAnswerInfo" @refresh="initTableDate"/>
@@ -76,7 +65,7 @@ export default {
           key: 'action',
           align: 'center',
           fixed: 'right',
-          width: 350,
+          width: 150,
           render: (h, params) => { return this.bindEvent(h, params) }
         }
       ]

@@ -1,26 +1,13 @@
 <template>
   <Layout v-layoutIn class="app-gauge-topic">
-    <Row class="app-title">
-      <Col span="10" offset="2" class="app-title-span">
-        {{gaugeName}} 内容详情
-      </Col>
-      <Col span="10">
-        <div class="cheader-system">
-          <div class="cheader-system-y" style="border-left: none">
-            <a @click="goBack()">
-              <Row class="cheader-system-title"> <Icon type="ios-undo" size="30" /></Row>
-              <Row class="cheader-system-content"> <span>返回</span></Row>
-            </a>
-          </div>
-        </div>
-        <!--
-        <Button type="success" shape="circle" class="app-title-button" >新 增</Button>
-        <Button type="info" @click="goBack" shape="circle" class="app-title-button" >返 回</Button>
-        -->
-      </Col>
+    <Row style="height: 60px;">
+      <Row :gutter="32">
+        <Col span="22"><Alert show-icon>{{gaugeName}} 内容详情</Alert></Col>
+        <Col span="2"><Button long type="info" icon="ios-undo" @click="goBack"> 返 回 </Button></Col>
+      </Row>
     </Row>
 
-    <Row style="height: calc(100% - 120px); overflow-y: auto;">
+    <Row style="height: calc(100% - 60px); overflow-y: auto;">
       <Col offset="2" span="20" style="height: 100%;">
         <Card class="app-gauge-topic-card" v-for="item in topicListDate" :key="item.id">
           <div slot="title" >
