@@ -1,14 +1,12 @@
 import request from '@/utils/request'
 
 /**
- * selectListByUserId
+ * result
+ * @param studentId studentId
  */
-export const list = (userId) => {
+export const result = (studentId) => {
   return request({
-    url: '/gauge/record/list',
-    method: 'get',
-    params: {
-      userId: userId
-    }
+    url: '/gauge/record/result/' + studentId,
+    method: 'get'
   })
 }
