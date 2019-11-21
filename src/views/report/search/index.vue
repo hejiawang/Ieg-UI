@@ -43,7 +43,7 @@
               <img src="../../../assets/images/layout/logo.png">
               <div style="float: right; width: calc(100% - 80px);">
                 <div style="height: 40px; line-height: 40px; font-size: 20px;">
-                  <span style="color: #17233d;">沈阳理工大学</span>
+                  <a style="color: #17233d;">沈阳理工大学</a>
                   <span style="margin-left: 40px; color: #2d8cf0;">
                     <Icon type="md-star-outline" style="margin-bottom: 5px;"/>
                     211
@@ -76,7 +76,7 @@
               <img src="../../../assets/logo.png">
               <div style="float: right; width: calc(100% - 80px);">
                 <div style="height: 40px; line-height: 40px; font-size: 20px;">
-                  <span style="color: #17233d;">清华大学</span>
+                  <a style="color: #17233d;">清华大学</a>
                   <span style="margin-left: 40px; color: #2d8cf0;">
                     <Icon type="md-star-outline" style="margin-bottom: 5px;"/>
                     985
