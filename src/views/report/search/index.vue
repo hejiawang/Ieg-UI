@@ -29,7 +29,7 @@
               <Input type="text" v-model.trim="listQuery.major" :maxlength="200" clearable placeholder="多院校请用空格分离"/>
             </FormItem>
             <FormItem :label-width="0">
-              <Button type="success" style="width: 150px;" @click="initList">检 索</Button>
+              <Button type="success" style="width: 150px;" @click="searchList">检 索</Button>
             </FormItem>
           </Form>
         </Row>
@@ -141,6 +141,10 @@ export default {
 
         this.listLoading = false
       })
+    },
+    searchList () {
+      this.listQuery.current = 1
+      this.initList()
     },
     goBack () {
       this.$router.replace('/guide')
