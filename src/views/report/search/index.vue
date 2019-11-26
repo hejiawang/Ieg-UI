@@ -29,7 +29,7 @@
               <Input type="text" v-model.trim="listQuery.major" :maxlength="200" clearable placeholder="多院校请用空格分离"/>
             </FormItem>
             <FormItem :label-width="0">
-              <Button type="success" style="width: 150px;">检 索</Button>
+              <Button type="success" style="width: 150px;" @click="initList">检 索</Button>
             </FormItem>
           </Form>
         </Row>
@@ -56,7 +56,7 @@
                     {{provinceArea(d)}} &nbsp;&nbsp; {{cityArea(d)}} &nbsp;&nbsp; {{areaArea(d)}} &nbsp;&nbsp; {{d.areaDetail}}
                   </span>
                 </div>
-                <div style="height: 20px; line-height: 20px; font-size: 14px; overflow-y: hidden;">
+                <div style="height: 20px; line-height: 20px; font-size: 14px; overflow: hidden;">
                   <span v-for="(m, mi) in d.majorNames" :key="mi" style="margin-right: 40px;">
                     <Icon type="ios-medal-outline" />
                     {{m}}
@@ -150,6 +150,12 @@ export default {
 </script>
 <style lang="scss">
   .report-search{
+    .ivu-divider-horizontal{
+      margin: 5px 0;
+    }
+    .ivu-form-item {
+      margin-bottom: 15px;
+    }
     .main {
       height: calc(100% - 60px) !important;
     }
@@ -162,7 +168,7 @@ export default {
     }
 
     .content {
-      height: calc(100% - 190px) !important;
+      height: calc(100% - 140px) !important;
       overflow-y: auto;
 
       .info {
