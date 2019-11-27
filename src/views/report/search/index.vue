@@ -39,7 +39,7 @@
         <Row class="content">
           <Spin size="large" fix v-if="listLoading"/>
 
-          <div class="info" v-for="(d, index) in listData" :key="index">
+          <div class="info" v-if="listData.length > 0" v-for="(d, index) in listData" :key="index">
             <div class="info-base">
               <img v-if="d.logo" :src="d.logo">
               <img v-else src="../../../assets/logo.png">
@@ -66,6 +66,10 @@
             </div>
 
             <div class="info-desc" v-html="d.describe" />
+          </div>
+
+          <div v-if="listData.length <= 0" style="line-height: 200px; font-size: 17px; text-align: center;">
+            未匹配到院校信息
           </div>
 
         </Row>
