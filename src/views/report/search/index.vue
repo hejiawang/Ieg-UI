@@ -45,7 +45,7 @@
               <img v-else src="../../../assets/logo.png">
               <div style="float: right; width: calc(100% - 80px);">
                 <div style="height: 40px; line-height: 40px; font-size: 20px;">
-                  <a style="color: #2d8cf0;">{{d.name}}</a>
+                  <a @click="selectSchool(d)" style="color: #2d8cf0;">{{d.name}}</a>
                   <span style="margin-left: 40px; color: #2d8cf0;" v-for="(f, i) in d.featureNames" :key="i">
                     <Icon type="md-star-outline" style="margin-bottom: 5px;"/>
                     {{f}}
@@ -133,6 +133,10 @@ export default {
     }
   },
   created () {
+    if (!this.$CV.isEmpty(this.$route.query.listQuery)) {
+      this.listQuery = this.$route.query.listQuery
+    }
+
     this.initList()
   },
   methods: {
@@ -152,6 +156,9 @@ export default {
     },
     goBack () {
       this.$router.replace('/guide')
+    },
+    selectSchool (row) {
+      this.$router.replace({path: '/report/detail', query: {schoolId: row.schoolId, listQuery: this.listQuery}})
     }
   }
 }
