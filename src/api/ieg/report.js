@@ -11,3 +11,14 @@ export const list = (obj) => {
     data: obj
   })
 }
+
+/**
+ * detail
+ * @param schoolId schoolId
+ */
+export const detail = (schoolId) => {
+  return request({
+    url: '/ieg/report/detail/' + schoolId,
+    method: 'get'
+  })
+}

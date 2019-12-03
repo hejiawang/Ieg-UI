@@ -24,6 +24,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { detail } from '@/api/ieg/report'
 
 export default {
   name: 'ReportDetail',
@@ -44,8 +45,9 @@ export default {
 
       return
     }
-
-    console.info(123)
+    detail(this.schoolId).then(data => {
+      console.info(data.result)
+    })
   },
   methods: {
     goBack () {
@@ -58,6 +60,7 @@ export default {
   .report-detail {
     .main {
       height: calc(100% - 60px) !important;
+      padding-top: 20px;
     }
   }
 </style>

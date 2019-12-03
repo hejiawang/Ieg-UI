@@ -101,7 +101,7 @@
           </FormItem>
         </Col>
         <Col span="4">
-          <FormItem label="教育指数" prop="ratioSatisfyWork">
+          <FormItem label="就业指数" prop="ratioSatisfyWork">
             <Rate clearable allow-half v-model="schoolForm.ratioSatisfyWork"/>
           </FormItem>
         </Col>
