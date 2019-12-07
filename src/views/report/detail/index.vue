@@ -18,17 +18,18 @@
     <Spin size="large" fix v-if="loading" class="app-layout-spin"/>
 
     <Row id="main" class="main" v-if="detail">
-      <Anchor show-ink container=".main" style="position: fixed; right: 30px; top: 200px;">
-        <AnchorLink href="#id_school_describe" title="院校简介" />
-        <AnchorLink href="#id_school_scholarship" title="奖学金设置及推免名额" />
-        <AnchorLink href="#id_school_life" title="食宿条件" />
-        <AnchorLink href="#id_school_environment" title="气候条件" />
+      <Anchor v-if="currentTab === 'school'" show-ink container=".main" style="position: fixed; right: 30px; top: 100px;">
+        <AnchorLink href="#id_name" title="院校信息" />
+        <AnchorLink v-if="detail.schoolDetail.describe" href="#id_school_describe" title="院校简介" />
+        <AnchorLink v-if="detail.schoolDetail.scholarship" href="#id_school_scholarship" title="奖学金设置及推免名额" />
+        <AnchorLink v-if="detail.schoolDetail.life" href="#id_school_life" title="食宿条件" />
+        <AnchorLink v-if="detail.environment" href="#id_school_environment" title="气候条件" />
       </Anchor>
 
       <Col offset="4" span="16" style="height: 100%;">
         <div style="height: 200px;">
           <div class="base-left">
-            <div class="base-name">
+            <div class="base-name" id="id_name">
               <strong style="font-size: 35px;">{{detail.school.name}}</strong>
 
               <Tag v-for="(feature, index) in detail.featureList" :key="index" color="primary" style="margin-left: 20px;">
@@ -100,11 +101,13 @@
     </Row>
 
     <!-- 回到顶部 -->
+    <!--
     <div class="ivu-back-top ivu-back-top-show" style="bottom: 30px; right: 30px;" @click="goTop">
       <div class="ivu-back-top-inner">
         <i class="ivu-icon ivu-icon-ios-arrow-up"></i>
       </div>
     </div>
+    -->
   </Layout>
 </template>
 <script>
