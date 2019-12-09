@@ -88,45 +88,49 @@
         </div>
         <Tabs style="margin-top: 20px;" v-model="currentTab">
           <TabPane label="院校信息" icon="ios-apps" name="school">
-            <div class="detail-school-logo">
-              <Carousel autoplay loop>
-                <CarouselItem v-if="detail.schoolDetail.img1Path"> <img :src="detail.schoolDetail.img1Path"/> </CarouselItem>
-                <CarouselItem v-if="detail.schoolDetail.img2Path"> <img :src="detail.schoolDetail.img2Path"/> </CarouselItem>
-                <CarouselItem v-if="detail.schoolDetail.img3Path"> <img :src="detail.schoolDetail.img3Path"/> </CarouselItem>
-                <CarouselItem v-if="detail.schoolDetail.img4Path"> <img :src="detail.schoolDetail.img4Path"/> </CarouselItem>
-              </Carousel>
-            </div>
+            <div v-if="currentTab === 'school'">
+              <div class="detail-school-logo">
+                <Carousel autoplay loop>
+                  <CarouselItem v-if="detail.schoolDetail.img1Path"> <img :src="detail.schoolDetail.img1Path"/> </CarouselItem>
+                  <CarouselItem v-if="detail.schoolDetail.img2Path"> <img :src="detail.schoolDetail.img2Path"/> </CarouselItem>
+                  <CarouselItem v-if="detail.schoolDetail.img3Path"> <img :src="detail.schoolDetail.img3Path"/> </CarouselItem>
+                  <CarouselItem v-if="detail.schoolDetail.img4Path"> <img :src="detail.schoolDetail.img4Path"/> </CarouselItem>
+                </Carousel>
+              </div>
 
-            <Divider dashed orientation="left" v-if="detail.schoolDetail.describe">院校简介</Divider>
-            <div id="id_school_describe" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.describe"/>
+              <Divider dashed orientation="left" v-if="detail.schoolDetail.describe">院校简介</Divider>
+              <div id="id_school_describe" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.describe"/>
 
-            <Divider dashed orientation="left" v-if="detail.schoolDetail.scholarship">奖学金设置及推免名额</Divider>
-            <div id="id_school_scholarship" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.scholarship"/>
+              <Divider dashed orientation="left" v-if="detail.schoolDetail.scholarship">奖学金设置及推免名额</Divider>
+              <div id="id_school_scholarship" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.scholarship"/>
 
-            <Divider dashed orientation="left" v-if="detail.schoolDetail.life">食宿条件</Divider>
-            <div id="id_school_life" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.life"/>
+              <Divider dashed orientation="left" v-if="detail.schoolDetail.life">食宿条件</Divider>
+              <div id="id_school_life" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.life"/>
 
-            <Divider dashed orientation="left" v-if="detail.environment">气候条件</Divider>
-            <div id="id_school_environment" class="quill-editor ql-container ql-editor" v-html="detail.environment"/>
+              <Divider dashed orientation="left" v-if="detail.environment">气候条件</Divider>
+              <div id="id_school_environment" class="quill-editor ql-container ql-editor" v-html="detail.environment"/>
 
-            <div v-for="(problem, index) in detail.problemList" :key="index">
-              <Divider dashed orientation="left">{{problem.problem}}</Divider>
-              <div :id="problem.id" class="quill-editor ql-container ql-editor" v-html="problem.answer"/>
+              <div v-for="(problem, index) in detail.problemList" :key="index">
+                <Divider dashed orientation="left">{{problem.problem}}</Divider>
+                <div :id="problem.id" class="quill-editor ql-container ql-editor" v-html="problem.answer"/>
+              </div>
             </div>
           </TabPane>
 
           <TabPane label="院系信息" icon="ios-apps" name="faculty">
-            <Divider dashed orientation="left" v-if="detail.schoolDetail.faculty">院系简介</Divider>
-            <div id="id_school_faculty" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.faculty"/>
+            <div v-if="currentTab === 'faculty'">
+              <Divider dashed orientation="left" v-if="detail.schoolDetail.faculty">院系简介</Divider>
+              <div id="id_school_faculty" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.faculty"/>
 
-            <div v-for="(faculty, index) in detail.facultyList" :key="index">
-              <Divider dashed orientation="left" >{{faculty.name}}</Divider>
-              <div :id="faculty.id" class="quill-editor ql-container ql-editor" v-html="faculty.describe"/>
+              <div v-for="(faculty, index) in detail.facultyList" :key="index">
+                <Divider dashed orientation="left" >{{faculty.name}}</Divider>
+                <div :id="faculty.id" class="quill-editor ql-container ql-editor" v-html="faculty.describe"/>
+              </div>
             </div>
           </TabPane>
 
           <TabPane label="专业信息" icon="ios-apps" name="major">
-            <div v-for="(major, index) in detail.majorList" :key="index">
+            <div v-if="currentTab === 'major'" v-for="(major, index) in detail.majorList" :key="index">
               <Divider dashed orientation="left" :id="major.id">{{major.name}}</Divider>
 
               <div v-if="major.featureNames.length > 0">
@@ -135,6 +139,42 @@
                 </Tag>
               </div>
 
+              <div style="padding: 12px 15px;">
+                <span>
+                  <Icon type="ios-bookmark" />
+                  归属院系：{{major.facultyName}}
+                </span>
+                <span style="margin-left: 40px;" v-if="major.majorTwoName">
+                  <Icon type="md-leaf" />
+                  归属学科：{{major.majorTwoName}}
+                </span>
+                <span style="margin-left: 40px;" v-if="major.courseType">
+                  <Icon type="md-ribbon" />
+                  学科类型：{{major.courseType | courseTypeFilter}}
+                </span>
+                <span style="margin-left: 40px;" v-if="major.degreeType">
+                  <Icon type="logo-html5" />
+                  学历层次：{{major.degreeType | degreeTypeFilter}}
+                </span>
+                <span style="margin-left: 40px;" v-if="major.studyLength">
+                  <Icon type="logo-google" />
+                  学制：{{major.studyLength}} 年
+                </span>
+                <span style="margin-left: 40px;" v-if="major.money">
+                  <Icon type="logo-yen" />
+                  学费：{{major.money}}
+                </span>
+              </div>
+
+              <div v-if="major.course" style="padding: 12px 15px;">
+                <Icon type="ios-photos" /> 专业课程： {{major.course}}
+              </div>
+
+              <div v-if="major.workDirection" style="padding: 12px 15px;">
+                <Icon type="md-reorder" /> 从业方向： {{major.workDirection}}
+              </div>
+
+              <div class="quill-editor ql-container ql-editor" v-html="major.describe"/>
             </div>
           </TabPane>
         </Tabs>
@@ -174,6 +214,16 @@ export default {
       } else {
         return ''
       }
+    }
+  },
+  filters: {
+    degreeTypeFilter (val) {
+      let l = {B: '本科', Z: '专科'}
+      return l[val]
+    },
+    courseTypeFilter (val) {
+      let l = {W: '文科', L: '理科', A: '文科/理科'}
+      return l[val]
     }
   },
   data () {
