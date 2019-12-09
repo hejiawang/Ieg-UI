@@ -18,7 +18,7 @@
     <Spin size="large" fix v-if="loading" class="app-layout-spin"/>
 
     <Row id="main" class="main" v-if="detail">
-      <Anchor v-if="currentTab === 'school'" show-ink container=".main" style="position: fixed; right: 30px; top: 100px;">
+      <Anchor v-if="currentTab === 'school'" show-ink container=".main" class="school_detail_anchor" >
         <AnchorLink href="#id_name" title="院校信息" />
         <AnchorLink v-if="detail.schoolDetail.describe" href="#id_school_describe" title="院校简介" />
         <AnchorLink v-if="detail.schoolDetail.scholarship" href="#id_school_scholarship" title="奖学金设置及推免名额" />
@@ -28,11 +28,17 @@
         <AnchorLink v-for="(problem, index) in detail.problemList" :key="index" :href="'#' + problem.id" :title="problem.problem" />
       </Anchor>
 
-      <Anchor v-if="currentTab === 'faculty'" show-ink container=".main" style="position: fixed; right: 30px; top: 100px;">
+      <Anchor v-if="currentTab === 'faculty'" show-ink container=".main" class="school_detail_anchor" >
         <AnchorLink href="#id_name" title="院校信息" />
         <AnchorLink v-if="detail.schoolDetail.faculty" href="#id_school_faculty" title="院系简介" />
 
         <AnchorLink v-for="(faculty, index) in detail.facultyList" :key="index" :href="'#' + faculty.id" :title="faculty.name" />
+      </Anchor>
+
+      <Anchor v-if="currentTab === 'major'" show-ink container=".main" class="school_detail_anchor" >
+        <AnchorLink href="#id_name" title="院校信息" />
+
+        <AnchorLink v-for="(major, index) in detail.majorList" :key="index" :href="'#' + major.id" :title="major.name" />
       </Anchor>
 
       <Col offset="4" span="16" style="height: 100%;">
@@ -108,6 +114,7 @@
               <div :id="problem.id" class="quill-editor ql-container ql-editor" v-html="problem.answer"/>
             </div>
           </TabPane>
+
           <TabPane label="院系信息" icon="ios-apps" name="faculty">
             <Divider dashed orientation="left" v-if="detail.schoolDetail.faculty">院系简介</Divider>
             <div id="id_school_faculty" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.faculty"/>
@@ -117,19 +124,22 @@
               <div :id="faculty.id" class="quill-editor ql-container ql-editor" v-html="faculty.describe"/>
             </div>
           </TabPane>
-          <TabPane label="专业信息" icon="ios-apps" name="major">标签三的内容</TabPane>
+
+          <TabPane label="专业信息" icon="ios-apps" name="major">
+            <div v-for="(major, index) in detail.majorList" :key="index">
+              <Divider dashed orientation="left" :id="major.id">{{major.name}}</Divider>
+
+              <div v-if="major.featureNames.length > 0">
+                <Tag v-for="(feature, fIndex) in major.featureNames" :key="fIndex" color="primary" style="margin-left: 20px;">
+                  {{feature}}
+                </Tag>
+              </div>
+
+            </div>
+          </TabPane>
         </Tabs>
       </Col>
     </Row>
-
-    <!-- 回到顶部 -->
-    <!--
-    <div class="ivu-back-top ivu-back-top-show" style="bottom: 30px; right: 30px;" @click="goTop">
-      <div class="ivu-back-top-inner">
-        <i class="ivu-icon ivu-icon-ios-arrow-up"></i>
-      </div>
-    </div>
-    -->
   </Layout>
 </template>
 <script>
@@ -187,17 +197,12 @@ export default {
     this.loading = true
     detail(this.schoolId).then(data => {
       this.detail = data.result
-      console.info(data.result)
-
       this.loading = false
     })
   },
   methods: {
     goBack () {
       this.$router.replace({path: '/report/search', query: {listQuery: this.listQuery}})
-    },
-    goTop () {
-      document.getElementById('main').scrollTop = 0
     }
   }
 }
@@ -251,6 +256,19 @@ export default {
       }
     }
 
+    .school_detail_anchor {
+      position: fixed;
+      right: 30px;
+      top: 100px;
+      height: calc(100% - 100px);
+    }
+    .school_detail_anchor > div:nth-child(1) {
+      height: 100%;
+    }
+    .ivu-anchor-wrapper {
+      max-height: 100% !important;
+    }
+
     .ivu-tabs-nav-container {
       font-size: 17px;
     }
@@ -262,6 +280,22 @@ export default {
 
     .ivu-divider-inner-text {
       font-size: 25px;
+    }
+
+    .ivu-anchor-link-title {
+      width: 100px;
+      display: block;
+      overflow: hidden;
+      word-break: keep-all;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .ivu-divider-dashed:before {
+      border-top: 1px solid #17233d;
+    }
+    .ivu-divider-dashed:after {
+      border-top: 1px solid #17233d;
     }
   }
 </style>
