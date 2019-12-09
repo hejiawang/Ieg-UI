@@ -24,6 +24,15 @@
         <AnchorLink v-if="detail.schoolDetail.scholarship" href="#id_school_scholarship" title="奖学金设置及推免名额" />
         <AnchorLink v-if="detail.schoolDetail.life" href="#id_school_life" title="食宿条件" />
         <AnchorLink v-if="detail.environment" href="#id_school_environment" title="气候条件" />
+
+        <AnchorLink v-for="(problem, index) in detail.problemList" :key="index" :href="'#' + problem.id" :title="problem.problem" />
+      </Anchor>
+
+      <Anchor v-if="currentTab === 'faculty'" show-ink container=".main" style="position: fixed; right: 30px; top: 100px;">
+        <AnchorLink href="#id_name" title="院校信息" />
+        <AnchorLink v-if="detail.schoolDetail.faculty" href="#id_school_faculty" title="院系简介" />
+
+        <AnchorLink v-for="(faculty, index) in detail.facultyList" :key="index" :href="'#' + faculty.id" :title="faculty.name" />
       </Anchor>
 
       <Col offset="4" span="16" style="height: 100%;">
@@ -93,8 +102,21 @@
 
             <Divider dashed orientation="left" v-if="detail.environment">气候条件</Divider>
             <div id="id_school_environment" class="quill-editor ql-container ql-editor" v-html="detail.environment"/>
+
+            <div v-for="(problem, index) in detail.problemList" :key="index">
+              <Divider dashed orientation="left">{{problem.problem}}</Divider>
+              <div :id="problem.id" class="quill-editor ql-container ql-editor" v-html="problem.answer"/>
+            </div>
           </TabPane>
-          <TabPane label="院系信息" icon="ios-apps" name="faculty">标签二的内容</TabPane>
+          <TabPane label="院系信息" icon="ios-apps" name="faculty">
+            <Divider dashed orientation="left" v-if="detail.schoolDetail.faculty">院系简介</Divider>
+            <div id="id_school_faculty" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.faculty"/>
+
+            <div v-for="(faculty, index) in detail.facultyList" :key="index">
+              <Divider dashed orientation="left" >{{faculty.name}}</Divider>
+              <div :id="faculty.id" class="quill-editor ql-container ql-editor" v-html="faculty.describe"/>
+            </div>
+          </TabPane>
           <TabPane label="专业信息" icon="ios-apps" name="major">标签三的内容</TabPane>
         </Tabs>
       </Col>
