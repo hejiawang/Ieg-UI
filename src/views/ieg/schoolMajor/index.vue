@@ -257,7 +257,7 @@ export default {
             schoolId: this.schoolId,
             schoolName: this.schoolName,
             majorId: row.id,
-            majorName: row.majorName
+            majorName: row.name
           }
         }
       )

@@ -175,6 +175,13 @@
               </div>
 
               <div class="quill-editor ql-container ql-editor" v-html="major.describe"/>
+
+              <div v-for="(problem, pIndex) in major.problemList" :key="pIndex">
+                <div style="padding: 12px 15px;">
+                  <Icon type="ios-school" /> <strong>{{problem.problem}}</strong>
+                </div>
+                <div class="quill-editor ql-container ql-editor" v-html="problem.answer"/>
+              </div>
             </div>
           </TabPane>
         </Tabs>
