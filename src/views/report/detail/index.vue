@@ -26,6 +26,8 @@
         <AnchorLink v-if="detail.environment" href="#id_school_environment" title="气候条件" />
 
         <AnchorLink v-for="(problem, index) in detail.problemList" :key="index" :href="'#' + problem.id" :title="problem.problem" />
+
+        <AnchorLink v-if="detail.enrollList.length > 0" href="#id_school_enroll" title="投档分数" />
       </Anchor>
 
       <Anchor v-if="currentTab === 'faculty'" show-ink container=".main" class="school_detail_anchor" >
@@ -90,12 +92,14 @@
           <TabPane label="院校信息" icon="ios-apps" name="school">
             <div v-if="currentTab === 'school'">
               <div class="detail-school-logo">
-                <!--<Carousel autoplay loop>
+                <!--
+                <Carousel autoplay loop>
                   <CarouselItem v-if="detail.schoolDetail.img1Path"> <img :src="detail.schoolDetail.img1Path"/> </CarouselItem>
                   <CarouselItem v-if="detail.schoolDetail.img2Path"> <img :src="detail.schoolDetail.img2Path"/> </CarouselItem>
                   <CarouselItem v-if="detail.schoolDetail.img3Path"> <img :src="detail.schoolDetail.img3Path"/> </CarouselItem>
                   <CarouselItem v-if="detail.schoolDetail.img4Path"> <img :src="detail.schoolDetail.img4Path"/> </CarouselItem>
-                </Carousel>-->
+                </Carousel>
+                -->
                 <Row :gutter="32">
                   <Col span="6"><img v-if="detail.schoolDetail.img1Path" :src="detail.schoolDetail.img1Path"/></Col>
                   <Col span="6"><img v-if="detail.schoolDetail.img2Path" :src="detail.schoolDetail.img2Path"/></Col>
@@ -120,6 +124,10 @@
                 <Divider dashed orientation="left">{{problem.problem}}</Divider>
                 <div :id="problem.id" class="quill-editor ql-container ql-editor" v-html="problem.answer"/>
               </div>
+
+              <Divider id="id_school_enroll" dashed orientation="left" v-if="detail.enrollList.length > 0">投档分数</Divider>
+              <Table v-if="detail.enrollList.length > 0" border :columns="enrollTableColumns"
+                     :data="detail.enrollList" stripe style="margin-bottom: 40px;"/>
             </div>
           </TabPane>
 
@@ -244,7 +252,11 @@ export default {
       schoolId: null,
       listQuery: {},
       loading: false,
-      detail: null
+      detail: null,
+      enrollTableColumns: [],
+      courseType: { W: '文科', L: '理科' },
+      degreeType: { B: '本科', Z: '专科' },
+      enrollType: { Common: '普通', Art: '艺术', Gym: '体育' }
     }
   },
   created () {
@@ -263,10 +275,44 @@ export default {
       this.detail = data.result
       this.loading = false
     })
+
+    this.initEnrollTableColumns()
   },
   methods: {
     goBack () {
       this.$router.replace({path: '/report/search', query: {listQuery: this.listQuery}})
+    },
+    initEnrollTableColumns () {
+      this.enrollTableColumns = [
+        {title: '年份', key: 'year', tooltip: true},
+        {
+          title: '学科类型',
+          key: 'courseType',
+          tooltip: true,
+          render: (h, params) => {
+            return h('Tag', { props: { color: 'green' } }, this.courseType[params.row.courseType])
+          }
+        },
+        {
+          title: '学历类型',
+          key: 'degreeType',
+          tooltip: true,
+          render: (h, params) => {
+            return h('Tag', { props: { color: 'cyan' } }, this.degreeType[params.row.degreeType])
+          }
+        },
+        {
+          title: '招收类型',
+          key: 'enrollType',
+          tooltip: true,
+          render: (h, params) => {
+            return h('Tag', { props: { color: 'purple' } }, this.enrollType[params.row.enrollType])
+          }
+        },
+        {title: '最低分数', key: 'scoreMin', tooltip: true},
+        {title: '最高分数', key: 'scoreMax', tooltip: true},
+        {title: '人数', key: 'number', tooltip: true}
+      ]
     }
   }
 }
