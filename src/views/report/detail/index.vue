@@ -90,12 +90,18 @@
           <TabPane label="院校信息" icon="ios-apps" name="school">
             <div v-if="currentTab === 'school'">
               <div class="detail-school-logo">
-                <Carousel autoplay loop>
+                <!--<Carousel autoplay loop>
                   <CarouselItem v-if="detail.schoolDetail.img1Path"> <img :src="detail.schoolDetail.img1Path"/> </CarouselItem>
                   <CarouselItem v-if="detail.schoolDetail.img2Path"> <img :src="detail.schoolDetail.img2Path"/> </CarouselItem>
                   <CarouselItem v-if="detail.schoolDetail.img3Path"> <img :src="detail.schoolDetail.img3Path"/> </CarouselItem>
                   <CarouselItem v-if="detail.schoolDetail.img4Path"> <img :src="detail.schoolDetail.img4Path"/> </CarouselItem>
-                </Carousel>
+                </Carousel>-->
+                <Row :gutter="32">
+                  <Col span="6"><img v-if="detail.schoolDetail.img1Path" :src="detail.schoolDetail.img1Path"/></Col>
+                  <Col span="6"><img v-if="detail.schoolDetail.img2Path" :src="detail.schoolDetail.img2Path"/></Col>
+                  <Col span="6"><img v-if="detail.schoolDetail.img3Path" :src="detail.schoolDetail.img3Path"/></Col>
+                  <Col span="6"><img v-if="detail.schoolDetail.img4Path" :src="detail.schoolDetail.img4Path"/></Col>
+                </Row>
               </div>
 
               <Divider dashed orientation="left" v-if="detail.schoolDetail.describe">院校简介</Divider>
@@ -119,7 +125,6 @@
 
           <TabPane label="院系信息" icon="ios-apps" name="faculty">
             <div v-if="currentTab === 'faculty'">
-              <Divider dashed orientation="left" v-if="detail.schoolDetail.faculty">院系简介</Divider>
               <div id="id_school_faculty" class="quill-editor ql-container ql-editor" v-html="detail.schoolDetail.faculty"/>
 
               <div v-for="(faculty, index) in detail.facultyList" :key="index">
@@ -253,6 +258,8 @@ export default {
 
     this.loading = true
     detail(this.schoolId).then(data => {
+      console.log(data)
+
       this.detail = data.result
       this.loading = false
     })
@@ -276,7 +283,7 @@ export default {
         margin-top: 10px;
         img {
           width: 100%;
-          height: 500px;
+          height: 200px;
         }
       }
 
