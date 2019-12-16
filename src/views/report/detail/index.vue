@@ -195,6 +195,9 @@
                 </div>
                 <div class="quill-editor ql-container ql-editor" v-html="problem.answer"/>
               </div>
+
+              <Table v-if="major.enrollList.length > 0" border :columns="majorEnrollTableColumns"
+                     :data="major.enrollList" stripe style="margin-bottom: 40px;"/>
             </div>
           </TabPane>
         </Tabs>
@@ -256,7 +259,8 @@ export default {
       enrollTableColumns: [],
       courseType: { W: '文科', L: '理科' },
       degreeType: { B: '本科', Z: '专科' },
-      enrollType: { Common: '普通', Art: '艺术', Gym: '体育' }
+      enrollType: { Common: '普通', Art: '艺术', Gym: '体育' },
+      majorEnrollTableColumns: []
     }
   },
   created () {
@@ -277,10 +281,27 @@ export default {
     })
 
     this.initEnrollTableColumns()
+    this.initMajorEnrollTableColumns()
   },
   methods: {
     goBack () {
       this.$router.replace({path: '/report/search', query: {listQuery: this.listQuery}})
+    },
+    initMajorEnrollTableColumns () {
+      this.majorEnrollTableColumns = [
+        {title: '年份', key: 'year', tooltip: true},
+        {
+          title: '类型',
+          key: 'type',
+          tooltip: true,
+          render: (h, params) => {
+            return h('Tag', { props: { color: 'green' } }, this.courseType[params.row.type])
+          }
+        },
+        {title: '最低分', key: 'scoreMin', tooltip: true},
+        {title: '计划招收人数', key: 'planNumber', tooltip: true},
+        {title: '实际招收人数', key: 'realNumber', tooltip: true}
+      ]
     },
     initEnrollTableColumns () {
       this.enrollTableColumns = [
