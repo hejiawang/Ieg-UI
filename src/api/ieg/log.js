@@ -15,3 +15,11 @@ export const save = (schoolName, userName) => {
     }
   })
 }
+
+export const list = (param) => {
+  return request({
+    url: '/ieg/school/log/list',
+    method: 'post',
+    data: param
+  })
+}

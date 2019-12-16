@@ -1,13 +1,115 @@
 <template>
   <Layout v-layoutIn>
     <Row style="height: 60px;">
-    0
+      <Col span="24">
+        <Form ref="searchForm" :model="listQuery" :label-width="80" inline >
+          <FormItem label="查询时间">
+            <DatePicker type="daterange" split-panels v-model="listQuery.nowDate"/>
+          </FormItem>
+          <FormItem label="院校名称">
+            <Input type="text" v-model="listQuery.schoolName" />
+          </FormItem>
+          <FormItem label="顾问名称">
+            <Input type="text" v-model="listQuery.userName" />
+          </FormItem>
+          <FormItem :label-width="0">
+            <ButtonGroup>
+              <Button icon="ios-search" @click="search" />
+              <Button icon="ios-trash-outline" @click="restSearch" />
+            </ButtonGroup>
+          </FormItem>
+        </Form>
+      </Col>
     </Row>
-    1
+
+    <div style="height: calc(100% - 60px);">
+      <div style="float: left; height: 100%; width: 600px;">
+        <Row>
+          <Table :height="tableHeight" border :columns="tableColumns" :data="tableData" :loading="listLoading" stripe/>
+        </Row>
+        <Row>
+          <CPage v-model="listQuery" @on-list="initList" ref="logPage"/>
+        </Row>
+      </div>
+    </div>
   </Layout>
 </template>
 <script>
+import { list } from '@/api/ieg/log'
+import store from '@/store'
+import moment from 'moment'
+
 export default {
-  name: 'IegLog'
+  name: 'IegLog',
+  computed: {
+    tableHeight () {
+      return store.getters.windowHeight - 290
+    }
+  },
+  data () {
+    return {
+      tableColumns: [],
+      tableData: [],
+      listLoading: false,
+      listQuery: {
+        nowDate: [new Date(), new Date()],
+        startDate: new Date(),
+        endDate: new Date(),
+        schoolName: null,
+        userName: null,
+        current: 1,
+        size: 10,
+        total: 0
+      }
+    }
+  },
+  created () {
+    this.initList()
+    this.initTableColumns()
+  },
+  methods: {
+    initTableColumns () {
+      this.tableColumns = [
+        {title: '顾问名称', key: 'userName', tooltip: true, width: '150'},
+        {title: '院校名称', key: 'schoolName', tooltip: true, width: '200'},
+        {
+          title: '查询时间',
+          tooltip: true,
+          key: 'createDate',
+          render: (h, params) => {
+            return h('span', moment(params.row.createDate).format('YYYY-MM-DD HH:mm:ss'))
+          }
+        },
+      ]
+    },
+    initList () {
+      this.listLoading = true
+
+      this.listQuery.startDate = this.listQuery.nowDate[0]
+      this.listQuery.endDate = this.listQuery.nowDate[1]
+      list(this.listQuery).then(data => {
+        this.tableData = data.rows
+        this.listQuery = Object.assign({}, this.listQuery, {total: data.total})
+
+        this.listLoading = false
+      })
+    },
+    /**
+     * 重置角色列表搜索条件
+     */
+    restSearch () {
+      ['schoolName', 'userName'].forEach(param => (
+        this.listQuery[param] = null
+      ))
+      this.search()
+    },
+    /**
+     * 角色列表搜索
+     */
+    search () {
+      this.$refs.logPage.rest()
+      this.initList()
+    }
+  }
 }
 </script>
