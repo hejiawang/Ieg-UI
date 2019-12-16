@@ -123,7 +123,7 @@ export default {
       sizeOpts: [5],
       listQuery: {
         major: '',
-        name: '安徽大学',
+        name: '',
         area: [],
         current: 1,
         size: 5,
