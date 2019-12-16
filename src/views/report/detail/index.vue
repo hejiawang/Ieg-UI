@@ -208,10 +208,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import { detail } from '@/api/ieg/report'
+import { save } from '@/api/ieg/log'
 import { pca, pcaa } from 'area-data'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import store from '@/store'
 
 export default {
   name: 'ReportDetail',
@@ -278,6 +280,9 @@ export default {
 
       this.detail = data.result
       this.loading = false
+
+      save(this.detail.school.name, store.getters.user.realName).then(data => {
+      })
     })
 
     this.initEnrollTableColumns()
