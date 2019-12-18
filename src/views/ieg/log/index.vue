@@ -31,23 +31,33 @@
           <CPage v-model="listQuery" @on-list="initList" ref="logPage"/>
         </Row>
       </div>
+
+      <div style="float: left; height: 100%; width: calc(100% - 600px);">
+        <ChartBar :value="cData" :text="chartText" style="height: 100%;" ref="chart"/>
+      </div>
     </div>
   </Layout>
 </template>
 <script>
-import { list } from '@/api/ieg/log'
+import { list, count } from '@/api/ieg/log'
 import store from '@/store'
 import moment from 'moment'
+import { ChartBar } from '@/components/layout/charts'
 
 export default {
   name: 'IegLog',
+  components: {ChartBar},
   computed: {
     tableHeight () {
-      return store.getters.windowHeight - 290
+      return store.getters.windowHeight - 285
+    },
+    chartText () {
+      return moment(this.listQuery.nowDate[0]).format('YYYY-MM-DD') + ' 至 ' + moment(this.listQuery.nowDate[1]).format('YYYY-MM-DD') + ' 报考顾问查询院校信息统计图'
     }
   },
   data () {
     return {
+      cData: [],
       tableColumns: [],
       tableData: [],
       listLoading: false,
@@ -66,6 +76,7 @@ export default {
   created () {
     this.initList()
     this.initTableColumns()
+    this.initChart()
   },
   methods: {
     initTableColumns () {
@@ -79,7 +90,7 @@ export default {
           render: (h, params) => {
             return h('span', moment(params.row.createDate).format('YYYY-MM-DD HH:mm:ss'))
           }
-        },
+        }
       ]
     },
     initList () {
@@ -92,6 +103,13 @@ export default {
         this.listQuery = Object.assign({}, this.listQuery, {total: data.total})
 
         this.listLoading = false
+      })
+    },
+    initChart () {
+      this.listQuery.startDate = this.listQuery.nowDate[0]
+      this.listQuery.endDate = this.listQuery.nowDate[1]
+      count(this.listQuery).then(data => {
+        this.cData = data.result
       })
     },
     /**
@@ -109,6 +127,7 @@ export default {
     search () {
       this.$refs.logPage.rest()
       this.initList()
+      this.initChart()
     }
   }
 }

@@ -16,9 +16,25 @@ export const save = (schoolName, userName) => {
   })
 }
 
+/**
+ * list
+ * @param param param
+ */
 export const list = (param) => {
   return request({
     url: '/ieg/school/log/list',
+    method: 'post',
+    data: param
+  })
+}
+
+/**
+ * count
+ * @param param param
+ */
+export const count = (param) => {
+  return request({
+    url: '/ieg/school/log/count',
     method: 'post',
     data: param
   })
